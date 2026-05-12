@@ -27,7 +27,7 @@ public void New(GButton source, GEvent event) { //_CODE_:NewCard:611985:
 } //_CODE_:NewCard:611985:
 
 public void ExportDeck(GButton source, GEvent event) { //_CODE_:Export:759024:
-  exporter = createWriter(Title + ".txt");
+  exporter = createWriter("data/"+ Title + ".txt");
   
   exporter.println("D");
   
