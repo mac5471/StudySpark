@@ -1,14 +1,26 @@
-void loadDeck (String name) {
-  String[] cardContent = loadStrings(name+".txt");
-  Deck temp;
-  temp = new Deck(name);
-  for(int i = 0; i < cardContent.length; i++) { //open for-loop #1
-    String content = cardContent[i];
-    int comma = content.indexOf(",");
-    String question = content.substring(0,comma);
-    String answer = content.substring(comma + 1, content.length());
-    temp.newCard(question, answer);
-  } //close for-loop #1
-  temp.switchCard(0);
-  displayed = temp;
+void resetProgram()
+{
+  deckContent = null;
+  Title = null;
+  currCard = 0;
+  
+  NewDeckMenu.setVisible(true);
+  
+  AnswerText.setVisible(false);
+  QuestionText.setVisible(false);
+  NewCard.setVisible(false);
+  Export.setVisible(false);
+  PrevButton.setVisible(false);
+  NextButton.setVisible(false);
+  DeleteButton.setVisible(false);
+  UpdateButton.setVisible(false);
+  
+  DeckName.setText("");
+}
+
+void resetText () {
+  QuestionText.setText("");
+  AnswerText.setText("");
+  QuestionText.setText(deckContent.get(currCard)[0]);
+  AnswerText.setText(deckContent.get(currCard)[1]);
 }
