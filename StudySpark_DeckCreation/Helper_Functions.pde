@@ -16,6 +16,7 @@ void resetProgram()
   UpdateButton.setVisible(false);
   
   DeckName.setText("");
+  resetText();
 }
 
 void resetText () {
