@@ -2,13 +2,20 @@ void loadDeck (String name) {
   String[] cardContent = loadStrings(name+".txt");
   Deck temp;
   temp = new Deck(name);
-  for(int i = 0; i < cardContent.length; i++) { //open for-loop #1
-    String content = cardContent[i];
-    int comma = content.indexOf(",");
-    String question = content.substring(0,comma);
-    String answer = content.substring(comma + 1, content.length());
-    temp.newCard(question, answer);
-  } //close for-loop #1
+  
+  if(cardContent[0].equals("D")) { //code if the file is determined to be for flashcard decks
+    for(int i = 1; i < cardContent.length; i += 2) {
+      String question = cardContent[i];
+      String answer = cardContent[i+1];
+      println(question, answer);
+      temp.newCard(question, answer);
+    }
+  }
+  
+  else if(cardContent[0].equals("Q")) { //code if the file is determined to be for quizzes
+    
+  }
+  
   temp.switchCard(0);
   displayed = temp;
 }
