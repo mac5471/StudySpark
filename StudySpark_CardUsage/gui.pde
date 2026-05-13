@@ -19,27 +19,27 @@ synchronized public void win_draw1(PApplet appc, GWinData data) { //_CODE_:windo
 } //_CODE_:window1:493474:
 
 public void nextCard(GButton source, GEvent event) { //_CODE_:nextButton:541649:
-  if(displayed.displayed + 1 < displayed.qtCards) {
-  displayed.displayedCard.Front = true;
-  displayed.displayed += 1;
-  displayed.switchCard(displayed.displayed);}
+  if(currDeck.displayedIndex + 1 < currDeck.qtCards) {
+  currDeck.currCard.Front = true;
+  currDeck.displayedIndex += 1;
+  currDeck.switchCard(currDeck.displayedIndex);}
   else {println("you're at the end of the deck!");}
 } //_CODE_:nextButton:541649:
 
 public void flipCard(GButton source, GEvent event) { //_CODE_:flipButton:427618:
-  displayed.displayedCard.Front = !displayed.displayedCard.Front;
+  currDeck.flipCard();
 } //_CODE_:flipButton:427618:
 
 public void prevCard(GButton source, GEvent event) { //_CODE_:prevButton:615710:
-  if(displayed.displayed - 1 >= 0) {
-  displayed.displayedCard.Front = true;
-  displayed.displayed -= 1;
-  displayed.switchCard(test.displayed);}
+  if(currDeck.displayedIndex - 1 >= 0) {
+  currDeck.currCard.Front = true;
+  currDeck.displayedIndex -= 1;
+  currDeck.switchCard(currDeck.displayedIndex);}
   else {println("you're at the beginning of the deck!");}
 } //_CODE_:prevButton:615710:
 
 public void starCard(GButton source, GEvent event) { //_CODE_:starButton:421702:
-  displayed.displayedCard.Star = !displayed.displayedCard.Star;
+  currDeck.starCard();
 } //_CODE_:starButton:421702:
 
 public void textfield1_change1(GTextField source, GEvent event) { //_CODE_:deckname:506753:
@@ -48,7 +48,6 @@ public void textfield1_change1(GTextField source, GEvent event) { //_CODE_:deckn
 public void submitname(GButton source, GEvent event) { //_CODE_:submitbutton:260575:
   String temp = deckname.getText();
   loadDeck(temp);
-  if(temp == null) {println("this deck does not exist! did you enter the name correctly?");}
 } //_CODE_:submitbutton:260575:
 
 

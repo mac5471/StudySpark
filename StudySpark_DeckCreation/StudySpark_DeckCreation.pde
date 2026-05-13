@@ -10,16 +10,14 @@ void setup() {
   size(500,400);
   createGUI();
   
-  resetProgram();
-  
-  //AnswerText.setVisible(false);
-  //QuestionText.setVisible(false);
-  //NewCard.setVisible(false);
-  //Export.setVisible(false);
-  //PrevButton.setVisible(false);
-  //NextButton.setVisible(false);
-  //DeleteButton.setVisible(false);
-  //UpdateButton.setVisible(false);
+  AnswerText.setVisible(false);
+  QuestionText.setVisible(false);
+  NewCard.setVisible(false);
+  Export.setVisible(false);
+  PrevButton.setVisible(false);
+  NextButton.setVisible(false);
+  DeleteButton.setVisible(false);
+  UpdateButton.setVisible(false);
   
 }
 

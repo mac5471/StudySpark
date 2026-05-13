@@ -3,36 +3,39 @@ class Card {
 //FIELDS
 
 //1) Card Details
-String Title, Question, Answer; //the card's content
-Boolean Front, Star;
+String Title, Question, Answer; //The card's title, question, and answer
+Boolean Front, Star; //If the card's front is showing, if the card has been starred
 
 //2) Graphical Information
 
 PVector Position;
 int sideLength; //not currently used -- implemented in case different menus might alter the card's size
-color Colour;
+color cardColour, textColour; //the colour of the card, the colour of the card's text
 
 //3) Relationship w/ Other Objects
 Deck belongsTo;
 int Index;
 
 //constructor
-Card(String q, String a) {
+Card(String q, String a) {//open constructor #1
   this.Question = q;
   this.Answer = a;
   this.Star = false;
-  this.Position = new PVector(100,100);
+  
+  this.Position = new PVector(100,100); //these should changed depending on GUI design
+  this.cardColour = (255);
+  this.textColour = (0);
+  
   this.Front = true;
 }//close constructor #1
 
 //methods
 
-void drawMe() { //text only for testing
+void drawMe() { //draws a card.
 
-  fill(255);
+  fill(this.cardColour);
   rect(this.Position.x, this.Position.y, 250,150);
-  if(this.Star) {fill(255,255,0);}
-  else{fill(0);}
+  fill(this.textColour);
   textAlign(CENTER);
   String content;
   if(this.Front) {content = this.Question;}
@@ -41,8 +44,4 @@ void drawMe() { //text only for testing
   
 }//close drawMe() method
 
-void star() {
-  this.Star = ! this.Star;
-}//close star() method
- 
-}
+}//close Card class
