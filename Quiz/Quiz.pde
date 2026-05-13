@@ -1,77 +1,54 @@
 class QuizQuestion {
+  String questionText;
+  String[] options;
+  boolean wasCorrect;
 
-  //field
-  //1) question details
-  String QuestionText, CorrectAnswer;
-  String[] Options;
-  boolean WasCorrect, IsFlagged;
-
-  //2) relationship w/ other objects
-  int Index;
-
-  // constructor
   QuizQuestion(String q, String[] ops) {
-    this.QuestionText = q;
-    this.Options = ops; 
-    this.CorrectAnswer = ops[0]; 
-    this.WasCorrect = true;
-    this.IsFlagged = false;
-  }
-
-  //method
-  void toggleFlag() {
-    this.IsFlagged = !this.IsFlagged;
+    this.questionText = q;
+    this.options = ops;
+    this.wasCorrect = true;
   }
 }
 
-class Quiz {
+class QuizHandler {
+  String title;
+  int currentIndex, score;
+  boolean isFinished;
+  ArrayList<QuizQuestion> questions;
+  QuizQuestion currentQ;
 
-  //FIELDS
-  //1) Quiz Details
-  String Name;
-  int CurrentIndex, Score;
-  boolean IsFinished;
-
-  //2) relationship w other objects
-  ArrayList<QuizQuestion> Questions;
-  QuizQuestion displayedQuestion;
-
-  //constructor
-  Quiz(String n) {
-    this.Name = n;
-    this.Questions = new ArrayList();
-    this.CurrentIndex = 0;
-    this.Score = 0;
-    this.IsFinished = false;
+  QuizHandler(String t) {
+    this.title = t;
+    this.questions = new ArrayList<QuizQuestion>();
+    this.currentIndex = 0;
+    this.score = 0;
+    this.isFinished = false;
   }
 
-  // methods
-  void newQuestion(String q, String[] ops) {
+  void addQuestion(String q, String[] ops) {
     QuizQuestion temp = new QuizQuestion(q, ops);
-    temp.Index = this.Questions.size();
-    this.Questions.add(temp);
-    
-    if (this.Questions.size() == 1) {
-      this.displayedQuestion = temp;
+    this.questions.add(temp);
+    if (this.questions.size() == 1) {
+      this.currentQ = temp;
     }
   }
 
   void checkAnswer(int selectedIndex) {
-    // so if the user clicks button 0, its going to be the right answer since in the txt file the first options always correct
+    // for now the first row will be the correct answer
     if (selectedIndex == 0) {
-      this.Score++;
+      this.score++;
     } else {
-      this.displayedQuestion.WasCorrect = false;
+      this.currentQ.wasCorrect = false;
     }
-    this.nextQuestion();
+    this.moveNext();
   }
 
-  void nextQuestion() {
-    if (this.CurrentIndex + 1 < this.Questions.size()) {
-      this.CurrentIndex++;
-      this.displayedQuestion = this.Questions.get(this.CurrentIndex);
+  void moveNext() {
+    if (this.currentIndex + 1 < this.questions.size()) {
+      this.currentIndex++;
+      this.currentQ = this.questions.get(this.currentIndex);
     } else {
-      this.IsFinished = true;
+      this.isFinished = true;
     }
   }
 }
