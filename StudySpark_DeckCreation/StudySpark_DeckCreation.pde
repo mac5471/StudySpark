@@ -1,33 +1,43 @@
 import g4p_controls.*;
 
-ArrayList<String[]> deckContent;
+ArrayList<String[]> Content;
 String Title;
-int currCard;
+int Current;
+boolean Card; //if creating card vs. quiz
 
 PrintWriter exporter;
 
 void setup() {
-  size(500,400);
+  size(500,405);
   createGUI();
   
-  AnswerText.setVisible(false);
-  QuestionText.setVisible(false);
-  NewCard.setVisible(false);
+  NewButton.setVisible(false);
   Export.setVisible(false);
   PrevButton.setVisible(false);
   NextButton.setVisible(false);
   DeleteButton.setVisible(false);
   UpdateButton.setVisible(false);
   
+  CardAnswerText.setVisible(false);
+  QuestionText.setVisible(false);
+  
+  
+  CorrAns.setVisible(false);
+  CorrAnsLabel.setVisible(false);
+  QuizAnswer1.setVisible(false);
+  QuizAnswer2.setVisible(false);
+  QuizAnswer3.setVisible(false);
+  QuizAnswer4.setVisible(false);
+  
 }
 
 void draw() {
   background(0);
   
-  if(deckContent != null) {
+  if(Content != null) {
     textSize(30);
     fill(255);
-    String cardCount = str(currCard + 1) + "/" + str(deckContent.size());
-    text(cardCount, 10, 380);
+    String Count = str(Current + 1) + "/" + str(Content.size());
+    text(Count, 10, 380);
   }
 }
