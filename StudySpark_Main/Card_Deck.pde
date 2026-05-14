@@ -51,7 +51,7 @@ void starCard() { //stars the curr. card.
   if(this.currCard != null) {
     this.currCard.Star = ! this.currCard.Star;
     
-    if (this.currCard.Star = true){
+    if (this.currCard.Star == true){
       this.currCard.cardColour = color(255,255,0); //these should change based on GUI design
       this.currCard.textColour = color(0);
     }
