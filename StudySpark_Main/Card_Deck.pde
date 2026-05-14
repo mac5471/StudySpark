@@ -50,8 +50,17 @@ void newCard(String q, String a) { //creates a new card and adds it to the deck.
 void starCard() { //stars the curr. card.
   if(this.currCard != null) {
     this.currCard.Star = ! this.currCard.Star;
-    this.currCard.cardColour = color(255,255,0); //these should change based on GUI design
-    this.currCard.textColour = color(0);
+    
+    if (this.currCard.Star = true){
+      this.currCard.cardColour = color(255,255,0); //these should change based on GUI design
+      this.currCard.textColour = color(0);
+    }
+    else{
+      this.currCard.cardColour = color(255);
+      this.currCard.textColour = color(0);
+      print("hi");
+    }
+    
   }
 }//close starCard() method
 

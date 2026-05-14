@@ -61,3 +61,14 @@ void screenControls(){
   }
   
 }
+
+void resetScreens(){
+  menu_win.setVisible(true);
+  preFlash_win.setVisible(false);
+  flash_win.setVisible(false);
+  preQuiz_win.setVisible(false);
+  quiz_win.setVisible(false);
+  postQuiz_win.setVisible(false);
+  preCreate_win.setVisible(false);
+  create_win.setVisible(false);
+}
