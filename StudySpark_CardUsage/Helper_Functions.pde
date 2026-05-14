@@ -14,7 +14,7 @@ void loadDeck (String name) { //loads a deck from its file
   }
   
   else if(cardContent[0].equals("q")) { //code if the file is determined to be for quizzes
-    for(int i = 1; i < cardContent.length - 2; i += 4) {
+    for(int i = 1; i < cardContent.length - 2; i += 5) {
       String question = cardContent[i];
       String answer = cardContent[i+1];
       println(question, answer);
