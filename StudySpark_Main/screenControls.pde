@@ -1,0 +1,63 @@
+void screenControls(){
+  
+  if (prevScreen != screen){
+    if (screen == 1){
+      menu_win.setVisible(true);
+    }
+    else{
+      menu_win.setVisible(false);
+    }
+    
+    if (screen == 2){
+      preFlash_win.setVisible(true);
+    }
+    else{
+      preFlash_win.setVisible(false);
+    }
+    
+    if (screen == 3){
+      flash_win.setVisible(true);
+    }
+    else{
+      flash_win.setVisible(false);
+    }
+    
+    if (screen == 4){
+      preQuiz_win.setVisible(true);
+    }
+    else{
+      preQuiz_win.setVisible(false);
+    }
+    
+    if (screen == 5){
+      quiz_win.setVisible(true);
+    }
+    else{
+      quiz_win.setVisible(false);
+    }
+    
+    if (screen == 6){
+      postQuiz_win.setVisible(true);
+    }
+    else{
+      postQuiz_win.setVisible(false);
+    }
+   
+    if (screen == 7){
+      preCreate_win.setVisible(true);
+    }
+    else{
+      preCreate_win.setVisible(false);
+    }
+    
+    if (screen == 8){
+      create_win.setVisible(true);
+    }
+    else{
+      create_win.setVisible(false);
+    }
+    
+    prevScreen = screen;
+  }
+  
+}

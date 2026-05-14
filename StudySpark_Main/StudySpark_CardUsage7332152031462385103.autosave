@@ -1,0 +1,22 @@
+import g4p_controls.*;
+
+Deck test, displayed;
+int screen = 1;
+int prevScreen = 0;
+
+void setup() {
+  //size(500,400);
+  createGUI();
+  //loadDeck("testdeck");
+  test = new Deck("wow!");
+  test.newCard("1+1", "2");
+  test.newCard("2+2", "fish");
+}
+
+void draw() {
+  screenControls();
+  
+  if (displayed != null) {
+  displayed.drawCard();}
+  
+}
