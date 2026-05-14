@@ -288,7 +288,7 @@ public void ExportContent(GButton source, GEvent event) { //_CODE_:Export:388574
   
   exporter.flush();
   exporter.close();
-  resetProgram();
+  //resetProgram();
   screen = 8;
 } //_CODE_:Export:388574:
 
