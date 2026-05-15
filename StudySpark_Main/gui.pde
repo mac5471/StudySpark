@@ -18,7 +18,7 @@ synchronized public void menu_win_draw(PApplet appc, GWinData data) { //_CODE_:m
   appc.background(backgroundCol);
   if (logo != null){
     appc.imageMode(CENTER);
-    appc.image(logo, width/2, height/4, 601, 205);
+    appc.image(logo, width/2, height/3.6, 541, 185);
   }
 } //_CODE_:menu_win:336987:
 
