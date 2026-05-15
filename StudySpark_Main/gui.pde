@@ -248,7 +248,7 @@ public void textarea2_change1(GTextArea source, GEvent event) { //_CODE_:CardAns
 } //_CODE_:CardAnswerText:480723:
 
 public void ExportContent(GButton source, GEvent event) { //_CODE_:Export:388574:
-  exporter = createWriter("data/"+ Title + ".txt"); //if you plan on changing the export folder, change "data" to the export folder's name.
+  exporter = createWriter("decks/"+ Title + ".txt"); //if you plan on changing the export folder, change "data" to the export folder's name.
   
   if(Card) {
   

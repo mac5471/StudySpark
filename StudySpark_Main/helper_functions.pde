@@ -1,6 +1,6 @@
 void loadDeck (String name) { //loads a deck from its file
-
-  String[] cardContent = loadStrings(name+".txt");
+  String path = sketchPath("/decks/"+name+".txt");
+  String[] cardContent = loadStrings(path);
   Deck temp;
   temp = new Deck(name); //creates temporary deck 'temp'
   
@@ -13,7 +13,7 @@ void loadDeck (String name) { //loads a deck from its file
     }
   }
   
-  else if(cardContent[0].equals("q")) { //code if the file is determined to be for quizzes
+  else if(cardContent[0].equals("Q")) { //code if the file is determined to be for quizzes
     for(int i = 1; i < cardContent.length - 2; i += 5) {
       String question = cardContent[i];
       String answer = cardContent[i+1];
@@ -30,9 +30,10 @@ QuizHandler activeQuiz;
 
 void loadQuizData(String filename) {
   // for now it will try finding biology.txt, after I will add feature where they can select which one they want
-  String[] lines = loadStrings(filename + ".txt");
+  String path = sketchPath("/decks/"+filename+".txt");
+  String[] lines = loadStrings(path);
   
-  if (lines != null && lines.length > 0 && lines[0].trim().equals("q")) {
+  if (lines != null && lines.length > 0 && lines[0].trim().equals("Q")) {
     activeQuiz = new QuizHandler(filename);
     
     // jump 5 lines at a time since 1 for question and 4 for answers
