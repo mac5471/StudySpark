@@ -6,8 +6,8 @@ int screen = 1;
 int prevScreen = 0;
 int screenWidth = 800;
 int screenHeight = 500;
-color backgroundCol = color(250, 245, 229);
-PImage logo;
+color backgroundCol = color(255, 248, 230);
+PImage logo, flashIcon, quizIcon;
 
 ArrayList<String[]> Content;
 String Title;
@@ -27,6 +27,8 @@ void setup() {
   resetScreens();
   
   logo = loadImage("StudySparkLogo.PNG");
+  flashIcon = loadImage("FlashcardIcon.PNG");
+  quizIcon = loadImage("QuizIcon.PNG");
   
   NewButton.setVisible(false);
   Export.setVisible(false);

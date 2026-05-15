@@ -15,7 +15,7 @@
  */
 
 synchronized public void menu_win_draw(PApplet appc, GWinData data) { //_CODE_:menu_win:336987:
-  appc.background(250, 245, 229);
+  appc.background(backgroundCol);
   if (logo != null){
     appc.imageMode(CENTER);
     appc.image(logo, width/2, height/4, 601, 205);
@@ -36,6 +36,10 @@ public void menu_create_clicked(GButton source, GEvent event) { //_CODE_:menu_cr
 
 synchronized public void preFlash_win_draw(PApplet appc, GWinData data) { //_CODE_:preFlash_win:456238:
   appc.background(backgroundCol);
+  if (flashIcon != null){
+    appc.imageMode(CENTER);
+    appc.image(flashIcon, width/2, height/3.5, 100, 100);
+  }
 } //_CODE_:preFlash_win:456238:
 
 public void preFlash_selectPack_changed(GTextField source, GEvent event) { //_CODE_:preFlash_selectPack:845913:
@@ -88,6 +92,10 @@ public void flash_star_clicked(GButton source, GEvent event) { //_CODE_:flash_st
 
 synchronized public void preQuiz_win_draw(PApplet appc, GWinData data) { //_CODE_:preQuiz_win:535086:
   appc.background(backgroundCol);
+  if (quizIcon != null){
+    appc.imageMode(CENTER);
+    appc.image(quizIcon, width/2, height/3.5, 100, 100);
+  }
 } //_CODE_:preQuiz_win:535086:
 
 public void preQuiz_back_clicked(GButton source, GEvent event) { //_CODE_:preQuiz_back:336593:
@@ -169,6 +177,11 @@ public void postQuiz_menu_clicked(GButton source, GEvent event) { //_CODE_:postQ
 
 synchronized public void preCreate_win_draw(PApplet appc, GWinData data) { //_CODE_:preCreate_win:489050:
   appc.background(backgroundCol);
+  if (flashIcon != null && quizIcon != null){
+    appc.imageMode(CENTER);
+    appc.image(flashIcon, 240, 230, 80, 80);
+    appc.image(quizIcon, 245, 320, 80, 80);
+  }
 } //_CODE_:preCreate_win:489050:
 
 public void preCreate_name_changed(GTextField source, GEvent event) { //_CODE_:preCreate_name:611747:
@@ -375,7 +388,8 @@ public void createGUI(){
   G4P.messagesEnabled(false);
   G4P.setGlobalColorScheme(GCScheme.BLUE_SCHEME);
   G4P.setMouseOverEnabled(false);
-  G4P.setDisplayFont("SansSerif", G4P.PLAIN, 24);
+  G4P.setDisplayFont("Microsoft Sans Serif", G4P.PLAIN, 22);
+  G4P.setInputFont("Microsoft Sans Serif", G4P.PLAIN, 14);
   G4P.setSliderFont("Arial", G4P.PLAIN, 11);
   surface.setTitle("Sketch Window");
   menu_win = GWindow.getWindow(this, "StudySpark", 0, 0, 800, 500, JAVA2D);
@@ -398,19 +412,19 @@ public void createGUI(){
   preFlash_win.noLoop();
   preFlash_win.setActionOnClose(G4P.EXIT_APP);
   preFlash_win.addDrawHandler(this, "preFlash_win_draw");
-  preFlash_selectPack = new GTextField(preFlash_win, 320, 200, 250, 20, G4P.SCROLLBARS_NONE);
+  preFlash_selectPack = new GTextField(preFlash_win, 290, 200, 290, 20, G4P.SCROLLBARS_NONE);
   preFlash_selectPack.setPromptText("Enter a pack");
   preFlash_selectPack.setOpaque(true);
   preFlash_selectPack.addEventHandler(this, "preFlash_selectPack_changed");
-  preFlash_confirm = new GButton(preFlash_win, 350, 230, 100, 30);
+  preFlash_confirm = new GButton(preFlash_win, 350, 240, 100, 30);
   preFlash_confirm.setText("Confirm");
   preFlash_confirm.setLocalColorScheme(GCScheme.GOLD_SCHEME);
   preFlash_confirm.addEventHandler(this, "preFlash_confirm_clicked");
-  preFlash_back = new GButton(preFlash_win, 10, 10, 90, 30);
+  preFlash_back = new GButton(preFlash_win, 20, 20, 90, 30);
   preFlash_back.setText("Back");
   preFlash_back.setLocalColorScheme(GCScheme.ORANGE_SCHEME);
   preFlash_back.addEventHandler(this, "preFlash_back_clicked");
-  label_deck = new GLabel(preFlash_win, 230, 200, 80, 20);
+  label_deck = new GLabel(preFlash_win, 220, 200, 70, 20);
   label_deck.setTextAlign(GAlign.CENTER, GAlign.MIDDLE);
   label_deck.setText("Deck: ");
   label_deck.setLocalColorScheme(GCScheme.ORANGE_SCHEME);
@@ -431,7 +445,7 @@ public void createGUI(){
   flash_flipCard.setText("Flip Card");
   flash_flipCard.setLocalColorScheme(GCScheme.ORANGE_SCHEME);
   flash_flipCard.addEventHandler(this, "flash_flipCard_clicked");
-  flash_menu = new GButton(flash_win, 20, 20, 80, 30);
+  flash_menu = new GButton(flash_win, 20, 20, 90, 30);
   flash_menu.setText("Menu");
   flash_menu.setLocalColorScheme(GCScheme.ORANGE_SCHEME);
   flash_menu.addEventHandler(this, "flash_menu_clicked");
@@ -443,19 +457,19 @@ public void createGUI(){
   preQuiz_win.noLoop();
   preQuiz_win.setActionOnClose(G4P.EXIT_APP);
   preQuiz_win.addDrawHandler(this, "preQuiz_win_draw");
-  preQuiz_back = new GButton(preQuiz_win, 10, 10, 90, 30);
+  preQuiz_back = new GButton(preQuiz_win, 20, 20, 90, 30);
   preQuiz_back.setText("Back");
   preQuiz_back.setLocalColorScheme(GCScheme.ORANGE_SCHEME);
   preQuiz_back.addEventHandler(this, "preQuiz_back_clicked");
-  preQuiz_confirm = new GButton(preQuiz_win, 350, 230, 100, 30);
+  preQuiz_confirm = new GButton(preQuiz_win, 350, 240, 100, 30);
   preQuiz_confirm.setText("Confirm");
   preQuiz_confirm.setLocalColorScheme(GCScheme.GOLD_SCHEME);
   preQuiz_confirm.addEventHandler(this, "preQuiz_confirm_clicked");
-  preQuiz_selectPack = new GTextField(preQuiz_win, 320, 200, 260, 20, G4P.SCROLLBARS_NONE);
+  preQuiz_selectPack = new GTextField(preQuiz_win, 290, 200, 290, 20, G4P.SCROLLBARS_NONE);
   preQuiz_selectPack.setPromptText("Enter a pack");
   preQuiz_selectPack.setOpaque(true);
   preQuiz_selectPack.addEventHandler(this, "preQuiz_selectPack_changed");
-  label_deck_1 = new GLabel(preQuiz_win, 230, 200, 80, 20);
+  label_deck_1 = new GLabel(preQuiz_win, 220, 200, 70, 20);
   label_deck_1.setTextAlign(GAlign.CENTER, GAlign.MIDDLE);
   label_deck_1.setText("Deck:");
   label_deck_1.setLocalColorScheme(GCScheme.ORANGE_SCHEME);
@@ -464,7 +478,7 @@ public void createGUI(){
   quiz_win.noLoop();
   quiz_win.setActionOnClose(G4P.EXIT_APP);
   quiz_win.addDrawHandler(this, "quiz_win_draw");
-  quiz_menu = new GButton(quiz_win, 20, 20, 80, 30);
+  quiz_menu = new GButton(quiz_win, 20, 20, 90, 30);
   quiz_menu.setText("Menu");
   quiz_menu.setLocalColorScheme(GCScheme.ORANGE_SCHEME);
   quiz_menu.addEventHandler(this, "quiz_menu_clicked");
@@ -499,16 +513,17 @@ public void createGUI(){
   label_name = new GLabel(preCreate_win, 240, 140, 90, 30);
   label_name.setTextAlign(GAlign.CENTER, GAlign.MIDDLE);
   label_name.setText("Name: ");
+  label_name.setLocalColorScheme(GCScheme.ORANGE_SCHEME);
   label_name.setOpaque(false);
-  preCreate_deck = new GButton(preCreate_win, 240, 230, 140, 80);
-  preCreate_deck.setText("New Deck");
+  preCreate_deck = new GButton(preCreate_win, 290, 200, 310, 60);
+  preCreate_deck.setText("New Flashcards");
   preCreate_deck.setLocalColorScheme(GCScheme.GOLD_SCHEME);
   preCreate_deck.addEventHandler(this, "preCreate_deck_clicked");
-  preCreate_quiz = new GButton(preCreate_win, 420, 230, 140, 80);
+  preCreate_quiz = new GButton(preCreate_win, 290, 290, 310, 60);
   preCreate_quiz.setText("New Quiz");
   preCreate_quiz.setLocalColorScheme(GCScheme.GOLD_SCHEME);
   preCreate_quiz.addEventHandler(this, "preCreate_quiz_clicked");
-  preCreate_back = new GButton(preCreate_win, 10, 10, 90, 30);
+  preCreate_back = new GButton(preCreate_win, 20, 20, 90, 30);
   preCreate_back.setText("Back");
   preCreate_back.setLocalColorScheme(GCScheme.ORANGE_SCHEME);
   preCreate_back.addEventHandler(this, "preCreate_back_clicked");
@@ -516,7 +531,7 @@ public void createGUI(){
   create_win.noLoop();
   create_win.setActionOnClose(G4P.EXIT_APP);
   create_win.addDrawHandler(this, "create_win_draw");
-  create_menu = new GButton(create_win, 10, 10, 90, 30);
+  create_menu = new GButton(create_win, 20, 20, 90, 30);
   create_menu.setText("Menu");
   create_menu.setLocalColorScheme(GCScheme.ORANGE_SCHEME);
   create_menu.addEventHandler(this, "create_menu_clicked");

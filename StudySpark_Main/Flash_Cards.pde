@@ -36,7 +36,7 @@ Card(String q, String a) {//open constructor #1
 void drawMe(PApplet appc) { //draws a card.
   appc.fill(this.cardColour);
   appc.textSize(14);
-  appc.rect(this.Position.x, this.Position.y, this.sideLength, 3*this.sideLength/5);
+  appc.rect(this.Position.x, this.Position.y, this.sideLength, 3*this.sideLength/5, 10);
   appc.fill(this.textColour);
   appc.textAlign(CENTER);
   String content;

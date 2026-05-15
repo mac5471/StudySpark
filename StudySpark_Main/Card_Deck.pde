@@ -52,13 +52,12 @@ void starCard() { //stars the curr. card.
     this.currCard.Star = ! this.currCard.Star;
     
     if (this.currCard.Star == true){
-      this.currCard.cardColour = color(255,255,0); //these should change based on GUI design
+      this.currCard.cardColour = color(255,230,120); //these should change based on GUI design
       this.currCard.textColour = color(0);
     }
     else{
       this.currCard.cardColour = color(255);
       this.currCard.textColour = color(0);
-      print("hi");
     }
     
   }
