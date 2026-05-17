@@ -116,7 +116,7 @@ public void preQuiz_selectPack_changed(GTextField source, GEvent event) { //_COD
 
 synchronized public void quiz_win_draw(PApplet appc, GWinData data) { //_CODE_:quiz_win:934516:
   appc.background(backgroundCol);
-    if (activeQuiz != null) {
+  if (activeQuiz != null) {
     if (!activeQuiz.isFinished) {
       QuizQuestion q = activeQuiz.currentQ;
       
@@ -127,11 +127,12 @@ synchronized public void quiz_win_draw(PApplet appc, GWinData data) { //_CODE_:q
       
       appc.textAlign(LEFT);
       appc.textSize(24);
-      appc.text(q.options[0], 225, 220);
-      appc.text(q.options[1], 225, 280);
-      appc.text(q.options[2], 225, 340);
-      appc.text(q.options[3], 225, 400);
-      // added score
+      appc.text(q.options[0], 225, 222); // next to button A (Y=200)
+      appc.text(q.options[1], 225, 282); // next to button B (Y=260)
+      appc.text(q.options[2], 225, 342); // next to button C (Y=320)
+      appc.text(q.options[3], 225, 402); // next to button D (Y=380)
+      
+      // Score tracking
       appc.textAlign(RIGHT);
       appc.text("Score: " + activeQuiz.score, width-20, 40);
     } else if (screen == 5) {
@@ -145,19 +146,19 @@ public void quiz_menu_clicked(GButton source, GEvent event) { //_CODE_:quiz_menu
 } //_CODE_:quiz_menu:254678:
 
 public void quiz_A_clicked(GButton source, GEvent event) { //_CODE_:quiz_A:662074:
-  if (activeQuiz != null && !activeQuiz.isFinished) activeQuiz.checkAnswer(0); 
+  if (activeQuiz != null && !activeQuiz.isFinished) activeQuiz.checkAnswerByText(0);
 } //_CODE_:quiz_A:662074:
 
 public void quiz_B_clicked(GButton source, GEvent event) { //_CODE_:quiz_B:953221:
-  if (activeQuiz != null && !activeQuiz.isFinished) activeQuiz.checkAnswer(1); 
+  if (activeQuiz != null && !activeQuiz.isFinished) activeQuiz.checkAnswerByText(1);
 } //_CODE_:quiz_B:953221:
 
 public void quiz_C_clicked(GButton source, GEvent event) { //_CODE_:quiz_C:357915:
-  if (activeQuiz != null && !activeQuiz.isFinished) activeQuiz.checkAnswer(2); 
+  if (activeQuiz != null && !activeQuiz.isFinished) activeQuiz.checkAnswerByText(2);
 } //_CODE_:quiz_C:357915:
 
 public void quiz_D_clicked(GButton source, GEvent event) { //_CODE_:quiz_D:670787:
-  if (activeQuiz != null && !activeQuiz.isFinished) activeQuiz.checkAnswer(3); 
+  if (activeQuiz != null && !activeQuiz.isFinished) activeQuiz.checkAnswerByText(3);
 } //_CODE_:quiz_D:670787:
 
 synchronized public void postQuiz_win_draw(PApplet appc, GWinData data) { //_CODE_:postQuiz_win:586133:
