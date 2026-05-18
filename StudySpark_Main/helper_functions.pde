@@ -29,7 +29,6 @@ void loadDeck (String name) { //loads a deck from its file
 QuizHandler activeQuiz;
 
 void loadQuizData(String filename) {
-  // for now it will try finding biology.txt, after I will add feature where they can select which one they want
   String path = sketchPath("/decks/"+filename+".txt");
   String[] lines = loadStrings(path);
   

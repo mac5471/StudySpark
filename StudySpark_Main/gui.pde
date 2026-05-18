@@ -162,19 +162,20 @@ public void quiz_D_clicked(GButton source, GEvent event) { //_CODE_:quiz_D:67078
 } //_CODE_:quiz_D:670787:
 
 synchronized public void postQuiz_win_draw(PApplet appc, GWinData data) { //_CODE_:postQuiz_win:586133:
-  appc.background(backgroundCol);
-  appc.textAlign(CENTER);
-  appc.textSize(24);
-  appc.fill(0);
-  appc.text("Quiz Finished!", width/2, height/2);
-  if (activeQuiz != null){
-    appc.text("Score: " + activeQuiz.score, width/2, height/2 + 30);
-  }
+  appc.background(230);
 } //_CODE_:postQuiz_win:586133:
 
 public void postQuiz_menu_clicked(GButton source, GEvent event) { //_CODE_:postQuiz_menu:715899:
   screen = 1;
 } //_CODE_:postQuiz_menu:715899:
+
+public void dropList1_click2(GDropList source, GEvent event) { //_CODE_:postQuiz_wrongDrop:941961:
+  println("postQuiz_wrongDrop - GDropList >> GEvent." + event + " @ " + millis());
+} //_CODE_:postQuiz_wrongDrop:941961:
+
+public void button1_click1(GButton source, GEvent event) { //_CODE_:postQuiz_retryBtn:391029:
+  println("postQuiz_retryBtn - GButton >> GEvent." + event + " @ " + millis());
+} //_CODE_:postQuiz_retryBtn:391029:
 
 synchronized public void preCreate_win_draw(PApplet appc, GWinData data) { //_CODE_:preCreate_win:489050:
   appc.background(backgroundCol);
@@ -499,10 +500,38 @@ public void createGUI(){
   postQuiz_win.noLoop();
   postQuiz_win.setActionOnClose(G4P.EXIT_APP);
   postQuiz_win.addDrawHandler(this, "postQuiz_win_draw");
-  postQuiz_menu = new GButton(postQuiz_win, 310, 430, 170, 40);
+  postQuiz_menu = new GButton(postQuiz_win, 410, 404, 170, 40);
   postQuiz_menu.setText("Back to Menu");
   postQuiz_menu.setLocalColorScheme(GCScheme.ORANGE_SCHEME);
   postQuiz_menu.addEventHandler(this, "postQuiz_menu_clicked");
+  postQuiz_wrongLabel = new GLabel(postQuiz_win, 250, 180, 300, 20);
+  postQuiz_wrongLabel.setTextAlign(GAlign.CENTER, GAlign.MIDDLE);
+  postQuiz_wrongLabel.setText("Incorrect Questions");
+  postQuiz_wrongLabel.setLocalColorScheme(GCScheme.ORANGE_SCHEME);
+  postQuiz_wrongLabel.setOpaque(false);
+  postQuiz_scoreLabel = new GLabel(postQuiz_win, 300, 100, 100, 30);
+  postQuiz_scoreLabel.setTextAlign(GAlign.CENTER, GAlign.MIDDLE);
+  postQuiz_scoreLabel.setText("Score:");
+  postQuiz_scoreLabel.setLocalColorScheme(GCScheme.ORANGE_SCHEME);
+  postQuiz_scoreLabel.setOpaque(false);
+  label3 = new GLabel(postQuiz_win, 200, 40, 400, 40);
+  label3.setTextAlign(GAlign.CENTER, GAlign.MIDDLE);
+  label3.setText("Quiz Finished!");
+  label3.setLocalColorScheme(GCScheme.ORANGE_SCHEME);
+  label3.setOpaque(false);
+  postQuiz_scoreValue = new GLabel(postQuiz_win, 411, 95, 100, 40);
+  postQuiz_scoreValue.setTextAlign(GAlign.CENTER, GAlign.MIDDLE);
+  postQuiz_scoreValue.setText("My label");
+  postQuiz_scoreValue.setLocalColorScheme(GCScheme.ORANGE_SCHEME);
+  postQuiz_scoreValue.setOpaque(false);
+  postQuiz_wrongDrop = new GDropList(postQuiz_win, 252, 206, 300, 100, 3, 10);
+  postQuiz_wrongDrop.setItems(loadStrings("list_941961"), 0);
+  postQuiz_wrongDrop.setLocalColorScheme(GCScheme.ORANGE_SCHEME);
+  postQuiz_wrongDrop.addEventHandler(this, "dropList1_click2");
+  postQuiz_retryBtn = new GButton(postQuiz_win, 230, 400, 160, 45);
+  postQuiz_retryBtn.setText("Retry");
+  postQuiz_retryBtn.setLocalColorScheme(GCScheme.ORANGE_SCHEME);
+  postQuiz_retryBtn.addEventHandler(this, "button1_click1");
   preCreate_win = GWindow.getWindow(this, "Create", 0, 0, 800, 500, JAVA2D);
   preCreate_win.noLoop();
   preCreate_win.setActionOnClose(G4P.EXIT_APP);
@@ -639,6 +668,12 @@ GButton quiz_C;
 GButton quiz_D; 
 GWindow postQuiz_win;
 GButton postQuiz_menu; 
+GLabel postQuiz_wrongLabel; 
+GLabel postQuiz_scoreLabel; 
+GLabel label3; 
+GLabel postQuiz_scoreValue; 
+GDropList postQuiz_wrongDrop; 
+GButton postQuiz_retryBtn; 
 GWindow preCreate_win;
 GTextField preCreate_name; 
 GLabel label_name; 
