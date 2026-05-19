@@ -31,47 +31,17 @@ public void New(GButton source, GEvent event) { //_CODE_:NewButton:611985:
 } //_CODE_:NewButton:611985:
 
 public void ExportContent(GButton source, GEvent event) { //_CODE_:Export:759024:
-  exporter = createWriter("data/"+ Title + ".txt"); //if you plan on changing the export folder, change "data" to the export folder's name.
-  
-  if(Card) {
-  
-    exporter.println("D");
-  
-    for(int i = 0; i < Content.size(); i++) {
-      exporter.println(Content.get(i)[0]);
-      exporter.println(Content.get(i)[1]); 
-  }
+    
+  if(New) {
+    filename = "data/"+ Title + ".txt";
+    export();
+    resetProgram();
   }
   
   else {
-    exporter.println("Q");
-    
-    for(int i = 0; i < Content.size(); i++) {
-      
-      String[] temp = Content.get(i);
-      
-      int Correct = int(temp[5]);
-      String temp2 = temp[1];
-    
-      Content.get(i)[1] = temp[Correct];
-      Content.get(i)[Correct] = temp2;
-      
-      if(! temp[0].equals(" ")) { //ask Sathvik about this later -- should blank answers be permitted?
-       if(! temp[1].equals(" ")) { //prevents questions w/o correct answer from being added.
-        exporter.println(temp[0]);
-        exporter.println(temp[1]);
-        exporter.println(temp[2]);
-        exporter.println(temp[3]);
-        exporter.println(temp[4]);
-       }
-    }
-    
-  }
+    OverwriteMenu.setVisible(true);
   }
   
-  exporter.flush();
-  exporter.close();
-  resetProgram();
 } //_CODE_:Export:759024:
 
 public void Previous(GButton source, GEvent event) { //_CODE_:PrevButton:238548:
@@ -156,6 +126,7 @@ public void createDeck(GButton source, GEvent event) { //_CODE_:deckButton:80971
  cardMenuVisible();
   
  Card = true;
+ New = true;
   
 } //_CODE_:deckButton:809714:
 
@@ -170,6 +141,7 @@ public void createQuiz(GButton source, GEvent event) { //_CODE_:quizButton:82829
   quizMenuVisible();
   
   Card = false;
+  New = true;
   
 } //_CODE_:quizButton:828290:
 
@@ -177,8 +149,29 @@ public void loadDeck(GButton source, GEvent event) { //_CODE_:loadButton:485131:
   Title = DeckName.getText();
   loadDeck(Title);
   Current = 0;
+  New = false;
   resetText();
 } //_CODE_:loadButton:485131:
+
+synchronized public void OverwriteDraw(PApplet appc, GWinData data) { //_CODE_:OverwriteMenu:368845:
+  appc.background(230);
+} //_CODE_:OverwriteMenu:368845:
+
+public void OverwriteContent(GButton source, GEvent event) { //_CODE_:overwriteButton:440758:
+  filename = "data/"+ Title + ".txt";
+  export();
+  resetProgram();
+} //_CODE_:overwriteButton:440758:
+
+public void newTitleEntry(GTextField source, GEvent event) { //_CODE_:newTitleText:576151:
+} //_CODE_:newTitleText:576151:
+
+public void SaveNew(GButton source, GEvent event) { //_CODE_:SaveNewButton:588531:
+    Title = newTitleText.getText();
+    filename = "data/"+ Title + ".txt";
+    export();
+    resetProgram();
+} //_CODE_:SaveNewButton:588531:
 
 
 
@@ -262,7 +255,26 @@ public void createGUI(){
   loadButton = new GButton(NewDeckMenu, 80, 115, 120, 30);
   loadButton.setText("Edit Pre-Existing");
   loadButton.addEventHandler(this, "loadDeck");
+  OverwriteMenu = GWindow.getWindow(this, "wowzers", 0, 0, 240, 120, JAVA2D);
+  OverwriteMenu.noLoop();
+  OverwriteMenu.setActionOnClose(G4P.KEEP_OPEN);
+  OverwriteMenu.addDrawHandler(this, "OverwriteDraw");
+  label1 = new GLabel(OverwriteMenu, 41, 12, 150, 20);
+  label1.setTextAlign(GAlign.CENTER, GAlign.MIDDLE);
+  label1.setText("Overwrite or Save as New?");
+  label1.setOpaque(false);
+  overwriteButton = new GButton(OverwriteMenu, 74, 40, 80, 30);
+  overwriteButton.setText("Overwrite");
+  overwriteButton.addEventHandler(this, "OverwriteContent");
+  newTitleText = new GTextField(OverwriteMenu, 10, 90, 160, 20, G4P.SCROLLBARS_NONE);
+  newTitleText.setPromptText("New Title Here");
+  newTitleText.setOpaque(true);
+  newTitleText.addEventHandler(this, "newTitleEntry");
+  SaveNewButton = new GButton(OverwriteMenu, 160, 85, 80, 30);
+  SaveNewButton.setText("Save as New");
+  SaveNewButton.addEventHandler(this, "SaveNew");
   NewDeckMenu.loop();
+  OverwriteMenu.loop();
 }
 
 // Variable declarations 
@@ -287,3 +299,8 @@ GTextField DeckName;
 GButton deckButton; 
 GButton quizButton; 
 GButton loadButton; 
+GWindow OverwriteMenu;
+GLabel label1; 
+GButton overwriteButton; 
+GTextField newTitleText; 
+GButton SaveNewButton; 

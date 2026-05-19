@@ -2,7 +2,11 @@ void resetProgram()
 {
   Content = null;
   Title = null;
+  New = true;
   Current = 0;
+  
+  newTitleText.setText("");
+  OverwriteMenu.setVisible(false);
   
   DeckName.setText("");
   NewDeckMenu.setVisible(true);
@@ -102,6 +106,51 @@ void cardMenuVisible() {
   NextButton.setVisible(true);
   DeleteButton.setVisible(true);
   UpdateButton.setVisible(true);
+  
+}
+
+void export() {
+  
+  exporter = createWriter(filename); //if you plan on changing the export folder, change "data" to the export folder's name.
+  
+  if(Card) {
+  
+    exporter.println("D");
+  
+    for(int i = 0; i < Content.size(); i++) {
+      exporter.println(Content.get(i)[0]);
+      exporter.println(Content.get(i)[1]); 
+  }
+  }
+  
+  else {
+    exporter.println("Q");
+    
+    for(int i = 0; i < Content.size(); i++) {
+      
+      String[] temp = Content.get(i);
+      
+      int Correct = int(temp[5]);
+      String temp2 = temp[1];
+    
+      Content.get(i)[1] = temp[Correct];
+      Content.get(i)[Correct] = temp2;
+      
+      if(! temp[0].equals(" ")) { //ask Sathvik about this later -- should blank answers be permitted?
+       if(! temp[1].equals(" ")) { //prevents questions w/o correct answer from being added.
+        exporter.println(temp[0]);
+        exporter.println(temp[1]);
+        exporter.println(temp[2]);
+        exporter.println(temp[3]);
+        exporter.println(temp[4]);
+       }
+    }
+    
+  }
+  }
+  
+  exporter.flush();
+  exporter.close();
   
 }
 

@@ -1,15 +1,18 @@
 import g4p_controls.*;
 
 ArrayList<String[]> Content;
-String Title;
+String filename, Title;
 int Current;
 boolean Card; //if creating card vs. quiz
+boolean New; //if new or modifying prev.
 
 PrintWriter exporter;
 
 void setup() {
   size(500,405);
   createGUI();
+  
+  OverwriteMenu.setVisible(false);
   
   NewButton.setVisible(false);
   Export.setVisible(false);
