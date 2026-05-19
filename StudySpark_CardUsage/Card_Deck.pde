@@ -19,6 +19,7 @@ Deck(String n) { //open constructor #1
   this.Name = n;
   this.qtCards = 0;
   this.Cards = new ArrayList();
+  this.displayedIndex = 0;
 }//close constructor #1
 
 
@@ -32,7 +33,6 @@ void drawCard() { //draws the current card.
 
 void switchCard(int i) { //switches to the card at index i.
   if(this.currCard != null) { //if curr. on a card, resets the state of the curr. card so that the front displays when shown again.
-    this.displayedIndex = i;
     this.currCard.Front = true;
   } 
     this.currCard = this.Cards.get(i);
