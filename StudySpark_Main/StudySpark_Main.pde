@@ -34,30 +34,7 @@ void setup() {
   flashIcon = loadImage("FlashcardIcon.PNG");
   quizIcon = loadImage("QuizIcon.PNG");
   
-  String decksPath = sketchPath("decks");
-  String flashPath = dataPath("list_298132");
-  String quizPath = dataPath("list_840257");
-
-  File decksFolder = new File(decksPath);
-  File [] avaliableDecks = decksFolder.listFiles();
-  ArrayList<String> flashOptionsList = new ArrayList<String>();
-  ArrayList<String> quizOptionsList = new ArrayList<String>();
-  
-  String deckName;
-  
-  for (File f : avaliableDecks){
-    String[] currDeck = loadStrings("decks/" + f.getName());
-    deckName = f.getName();
-    flashOptionsList.add(deckName.replace(".txt", ""));
-    if (currDeck[0].equals("Q")){
-      quizOptionsList.add(deckName.replace(".txt", ""));
-    }
-  }
-  String[] flashOptions = flashOptionsList.toArray(new String[flashOptionsList.size()]);
-  String[] quizOptions = quizOptionsList.toArray(new String[quizOptionsList.size()]);
-  
-  saveStrings(flashPath, flashOptions);
-  saveStrings(quizPath, quizOptions);
+  updateDropdowns();
   
   NewButton.setVisible(false);
   Export.setVisible(false);

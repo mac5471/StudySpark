@@ -9,6 +9,7 @@ void screenControls(){
     }
     
     if (screen == 2){
+      updateDropdowns();
       preFlash_win.setVisible(true);
     }
     else{
@@ -23,6 +24,7 @@ void screenControls(){
     }
     
     if (screen == 4){
+      updateDropdowns();
       preQuiz_win.setVisible(true);
     }
     else{

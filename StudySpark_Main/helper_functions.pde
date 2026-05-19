@@ -11,7 +11,7 @@ void loadDeck (String name) { //loads a deck from its file
     for(int i = 1; i < cardContent.length; i += 2) {
       String question = cardContent[i];
       String answer = cardContent[i+1];
-      println(question, answer);
+      //println(question, answer);
       temp.newCard(question, answer);
       selectCards.add(i + ". " + question);
     }
@@ -21,16 +21,16 @@ void loadDeck (String name) { //loads a deck from its file
     for(int i = 1; i < cardContent.length - 2; i += 5) {
       String question = cardContent[i];
       String answer = cardContent[i+1];
-      println(question, answer);
+      //println(question, answer);
       temp.newCard(question, answer);
       selectCards.add(j + ". " + question);
       j++;
     }
-  saveStrings(currentCardPath, selectCards.toArray(new String[selectCards.size()]));
   }
-  
   temp.switchCard(0);
   currDeck = temp;
+  String[] selectCardsArray = selectCards.toArray(new String[selectCards.size()]);
+  flash_selectCard.setItems(selectCardsArray, 0);
 }//close loadDeck() function
 
 QuizHandler activeQuiz;
@@ -145,4 +145,33 @@ void customPalette(){
   GCScheme.changePaletteColor(4, 15, color(87, 61, 45));
   GCScheme.changePaletteColor(4, 16, color(17, 8, 3));
 
+}
+
+void updateDropdowns(){
+  String decksPath = sketchPath("decks");
+  //String flashPath = dataPath("list_298132");
+  //String quizPath = dataPath("list_840257");
+
+  File decksFolder = new File(decksPath);
+  File [] avaliableDecks = decksFolder.listFiles();
+  ArrayList<String> flashOptionsList = new ArrayList<String>();
+  ArrayList<String> quizOptionsList = new ArrayList<String>();
+  
+  String deckName;
+  
+  for (File f : avaliableDecks){
+    String[] currDeck = loadStrings("decks/" + f.getName());
+    deckName = f.getName();
+    flashOptionsList.add(deckName.replace(".txt", ""));
+    if (currDeck[0].equals("Q")){
+      quizOptionsList.add(deckName.replace(".txt", ""));
+    }
+  }
+  String[] flashOptions = flashOptionsList.toArray(new String[flashOptionsList.size()]);
+  String[] quizOptions = quizOptionsList.toArray(new String[quizOptionsList.size()]);
+  
+  //saveStrings(flashPath, flashOptions);
+  //saveStrings(quizPath, quizOptions);
+  preFlash_selectPack.setItems(flashOptions, 0);
+  preQuiz_selectPack.setItems(quizOptions, 0);
 }
