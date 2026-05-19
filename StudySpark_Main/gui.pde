@@ -105,7 +105,19 @@ public void preQuiz_back_clicked(GButton source, GEvent event) { //_CODE_:preQui
 public void preQuiz_confirm_clicked(GButton source, GEvent event) { //_CODE_:preQuiz_confirm:206394:
   String temp = preQuiz_selectPack.getText();
   loadQuizData(temp); 
-  if (activeQuiz != null){
+  if (activeQuiz != null){ // basically means make sure a quiz object actually exists in memory before we try to use it
+    
+    for (int i = activeQuiz.questions.size() - 1; i > 0; i--) {
+      int index = int(random(i + 1));
+      QuizQuestion tempQ = activeQuiz.questions.get(index);
+      activeQuiz.questions.set(index, activeQuiz.questions.get(i));
+      activeQuiz.questions.set(i, tempQ);
+    }
+    
+    if (activeQuiz.questions.size() > 0) {
+      activeQuiz.currentQ = activeQuiz.questions.get(0);
+    }
+    
     screen = 5;
   }
 } //_CODE_:preQuiz_confirm:206394:
