@@ -4,22 +4,29 @@ void loadDeck (String name) { //loads a deck from its file
   Deck temp;
   temp = new Deck(name); //creates temporary deck 'temp'
   
+  ArrayList<String> selectCards = new ArrayList<String>();
+  String currentCardPath = dataPath("list_378885");
+  
   if(cardContent[0].equals("D")) { //code if the file is determined to be for flashcard decks
     for(int i = 1; i < cardContent.length; i += 2) {
       String question = cardContent[i];
       String answer = cardContent[i+1];
       println(question, answer);
       temp.newCard(question, answer);
+      selectCards.add(i + ". " + question);
     }
   }
-  
   else if(cardContent[0].equals("Q")) { //code if the file is determined to be for quizzes
+    int j = 1;
     for(int i = 1; i < cardContent.length - 2; i += 5) {
       String question = cardContent[i];
       String answer = cardContent[i+1];
       println(question, answer);
       temp.newCard(question, answer);
+      selectCards.add(j + ". " + question);
+      j++;
     }
+  saveStrings(currentCardPath, selectCards.toArray(new String[selectCards.size()]));
   }
   
   temp.switchCard(0);
@@ -91,4 +98,51 @@ void resetText () {
     QuizAnswer3.setText(Content.get(Current)[3]);
     QuizAnswer4.setText(Content.get(Current)[4]);
   }
+}
+
+void prevCard(){
+  if(currDeck.displayedIndex - 1 >= 0) {
+  currDeck.currCard.Front = true;
+  currDeck.displayedIndex -= 1;
+  currDeck.switchCard(currDeck.displayedIndex);
+  flash_selectCard.setSelected(currDeck.displayedIndex);
+  }
+  else {println("you're at the beginning of the deck!");}
+}
+
+void nextCard(){
+  if(currDeck.displayedIndex + 1 < currDeck.qtCards) {
+  currDeck.currCard.Front = true;
+  currDeck.displayedIndex += 1;
+  currDeck.switchCard(currDeck.displayedIndex);
+  flash_selectCard.setSelected(currDeck.displayedIndex);
+  }
+  else {println("you're at the end of the deck!");}
+}
+
+void customPalette(){
+  GCScheme.changePaletteColor(7, 0, color(214, 182, 152));
+  GCScheme.changePaletteColor(7, 1, color(182, 147, 118));
+  GCScheme.changePaletteColor(7, 2, color(151, 114, 86));
+  GCScheme.changePaletteColor(7, 3, color(231, 199, 169));
+  GCScheme.changePaletteColor(7, 4, color(244, 212, 182));
+  GCScheme.changePaletteColor(7, 5, color(255, 225, 198));
+  GCScheme.changePaletteColor(7, 6, color(255, 238, 223));
+  GCScheme.changePaletteColor(7, 11, color(214, 182, 152));
+  GCScheme.changePaletteColor(7, 12, color(55, 27, 0));
+  GCScheme.changePaletteColor(7, 15, color(153, 121, 91));
+  GCScheme.changePaletteColor(7, 16, color(37, 18, 0));
+  
+  GCScheme.changePaletteColor(4, 0, color(172, 129, 101));
+  GCScheme.changePaletteColor(4, 1, color(128, 90, 69));
+  GCScheme.changePaletteColor(4, 2, color(83, 54, 40));
+  GCScheme.changePaletteColor(4, 3, color(198, 152, 119));
+  GCScheme.changePaletteColor(4, 4, color(217, 171, 135));
+  GCScheme.changePaletteColor(4, 5, color(230, 192, 157));
+  GCScheme.changePaletteColor(4, 6, color(243, 213, 192));
+  GCScheme.changePaletteColor(4, 11, color(172, 129, 101));
+  GCScheme.changePaletteColor(4, 12, color(25, 14, 5));
+  GCScheme.changePaletteColor(4, 15, color(87, 61, 45));
+  GCScheme.changePaletteColor(4, 16, color(17, 8, 3));
+
 }
