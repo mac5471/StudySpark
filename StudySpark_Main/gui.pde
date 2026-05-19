@@ -18,7 +18,7 @@ synchronized public void menu_win_draw(PApplet appc, GWinData data) { //_CODE_:m
   appc.background(backgroundCol);
   if (logo != null){
     appc.imageMode(CENTER);
-    appc.image(logo, width/2, height/4, 601, 205);
+    appc.image(logo, width/2, height/3.6, 541, 185);
   }
 } //_CODE_:menu_win:336987:
 
@@ -105,7 +105,19 @@ public void preQuiz_back_clicked(GButton source, GEvent event) { //_CODE_:preQui
 public void preQuiz_confirm_clicked(GButton source, GEvent event) { //_CODE_:preQuiz_confirm:206394:
   String temp = preQuiz_selectPack.getText();
   loadQuizData(temp); 
-  if (activeQuiz != null){
+  if (activeQuiz != null){ // basically means make sure a quiz object actually exists in memory before we try to use it
+    
+    for (int i = activeQuiz.questions.size() - 1; i > 0; i--) {
+      int index = int(random(i + 1));
+      QuizQuestion tempQ = activeQuiz.questions.get(index);
+      activeQuiz.questions.set(index, activeQuiz.questions.get(i));
+      activeQuiz.questions.set(i, tempQ);
+    }
+    
+    if (activeQuiz.questions.size() > 0) {
+      activeQuiz.currentQ = activeQuiz.questions.get(0);
+    }
+    
     screen = 5;
   }
 } //_CODE_:preQuiz_confirm:206394:
@@ -165,15 +177,19 @@ synchronized public void postQuiz_win_draw(PApplet appc, GWinData data) { //_COD
   appc.textAlign(CENTER);
   appc.textSize(24);
   appc.fill(0);
-  appc.text("Quiz Finished!", width/2, height/2);
+  //appc.text("Quiz Finished!", width/2, height/2);
   if (activeQuiz != null){
-    appc.text("Score: " + activeQuiz.score, width/2, height/2 + 30);
+    appc.text("Score: " + activeQuiz.score, 400, 120);
   }
 } //_CODE_:postQuiz_win:586133:
 
 public void postQuiz_menu_clicked(GButton source, GEvent event) { //_CODE_:postQuiz_menu:715899:
   screen = 1;
 } //_CODE_:postQuiz_menu:715899:
+
+public void button1_click1(GButton source, GEvent event) { //_CODE_:button1:994259:
+  println("button1 - GButton >> GEvent." + event + " @ " + millis());
+} //_CODE_:button1:994259:
 
 synchronized public void preCreate_win_draw(PApplet appc, GWinData data) { //_CODE_:preCreate_win:489050:
   appc.background(backgroundCol);
@@ -498,10 +514,24 @@ public void createGUI(){
   postQuiz_win.noLoop();
   postQuiz_win.setActionOnClose(G4P.EXIT_APP);
   postQuiz_win.addDrawHandler(this, "postQuiz_win_draw");
-  postQuiz_menu = new GButton(postQuiz_win, 310, 430, 170, 40);
+  postQuiz_menu = new GButton(postQuiz_win, 175, 372, 170, 40);
   postQuiz_menu.setText("Back to Menu");
   postQuiz_menu.setLocalColorScheme(GCScheme.ORANGE_SCHEME);
   postQuiz_menu.addEventHandler(this, "postQuiz_menu_clicked");
+  incorrect = new GLabel(postQuiz_win, 296, 133, 204, 47);
+  incorrect.setTextAlign(GAlign.CENTER, GAlign.MIDDLE);
+  incorrect.setText("Incorrect Answers");
+  incorrect.setLocalColorScheme(GCScheme.ORANGE_SCHEME);
+  incorrect.setOpaque(false);
+  button1 = new GButton(postQuiz_win, 431, 375, 170, 40);
+  button1.setText("Retry Quiz");
+  button1.setLocalColorScheme(GCScheme.ORANGE_SCHEME);
+  button1.addEventHandler(this, "button1_click1");
+  label2 = new GLabel(postQuiz_win, 317, 58, 164, 39);
+  label2.setTextAlign(GAlign.CENTER, GAlign.MIDDLE);
+  label2.setText("Quiz Finished!");
+  label2.setLocalColorScheme(GCScheme.ORANGE_SCHEME);
+  label2.setOpaque(false);
   preCreate_win = GWindow.getWindow(this, "Create", 0, 0, 800, 500, JAVA2D);
   preCreate_win.noLoop();
   preCreate_win.setActionOnClose(G4P.EXIT_APP);
@@ -638,6 +668,9 @@ GButton quiz_C;
 GButton quiz_D; 
 GWindow postQuiz_win;
 GButton postQuiz_menu; 
+GLabel incorrect; 
+GButton button1; 
+GLabel label2; 
 GWindow preCreate_win;
 GTextField preCreate_name; 
 GLabel label_name; 
