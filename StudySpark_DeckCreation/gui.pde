@@ -153,16 +153,7 @@ public void createDeck(GButton source, GEvent event) { //_CODE_:deckButton:80971
  String[] temp = {"", ""};
  Content.add(temp);
  
- NewDeckMenu.setVisible(false);
-  
- CardAnswerText.setVisible(true);
- QuestionText.setVisible(true);
- NewButton.setVisible(true);
- Export.setVisible(true);
- PrevButton.setVisible(true);
- NextButton.setVisible(true);
- DeleteButton.setVisible(true);
- UpdateButton.setVisible(true);
+ cardMenuVisible();
   
  Card = true;
   
@@ -175,27 +166,19 @@ public void createQuiz(GButton source, GEvent event) { //_CODE_:quizButton:82829
   
   String[] temp = {"","","","","","1"};
   Content.add(temp);
-
-  NewDeckMenu.setVisible(false);
   
-  NewButton.setVisible(true);
-  Export.setVisible(true);
-  PrevButton.setVisible(true);
-  NextButton.setVisible(true);
-  DeleteButton.setVisible(true);
-  UpdateButton.setVisible(true);
-  
-  QuestionText.setVisible(true);
-  CorrAns.setVisible(true);
-  CorrAnsLabel.setVisible(true);
-  QuizAnswer1.setVisible(true);
-  QuizAnswer2.setVisible(true);
-  QuizAnswer3.setVisible(true);
-  QuizAnswer4.setVisible(true);
+  quizMenuVisible();
   
   Card = false;
   
 } //_CODE_:quizButton:828290:
+
+public void loadDeck(GButton source, GEvent event) { //_CODE_:loadButton:485131:
+  Title = DeckName.getText();
+  loadDeck(Title);
+  Current = 0;
+  resetText();
+} //_CODE_:loadButton:485131:
 
 
 
@@ -258,7 +241,7 @@ public void createGUI(){
   CorrAnsLabel.setText("Choose Correct Answer");
   CorrAnsLabel.setLocalColorScheme(GCScheme.YELLOW_SCHEME);
   CorrAnsLabel.setOpaque(false);
-  NewDeckMenu = GWindow.getWindow(this, "New Deck", 0, 0, 300, 120, JAVA2D);
+  NewDeckMenu = GWindow.getWindow(this, "New Deck", 0, 0, 300, 150, JAVA2D);
   NewDeckMenu.noLoop();
   NewDeckMenu.setActionOnClose(G4P.KEEP_OPEN);
   NewDeckMenu.addDrawHandler(this, "win_draw1");
@@ -276,6 +259,9 @@ public void createGUI(){
   quizButton = new GButton(NewDeckMenu, 150, 80, 130, 30);
   quizButton.setText("Create New Quiz");
   quizButton.addEventHandler(this, "createQuiz");
+  loadButton = new GButton(NewDeckMenu, 80, 115, 120, 30);
+  loadButton.setText("Edit Pre-Existing");
+  loadButton.addEventHandler(this, "loadDeck");
   NewDeckMenu.loop();
 }
 
@@ -300,3 +286,4 @@ GLabel label2;
 GTextField DeckName; 
 GButton deckButton; 
 GButton quizButton; 
+GButton loadButton; 
