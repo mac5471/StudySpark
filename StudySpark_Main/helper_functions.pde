@@ -4,22 +4,29 @@ void loadDeck (String name) { //loads a deck from its file
   Deck temp;
   temp = new Deck(name); //creates temporary deck 'temp'
   
+  ArrayList<String> selectCards = new ArrayList<String>();
+  String currentCardPath = dataPath("list_378885");
+  
   if(cardContent[0].equals("D")) { //code if the file is determined to be for flashcard decks
     for(int i = 1; i < cardContent.length; i += 2) {
       String question = cardContent[i];
       String answer = cardContent[i+1];
       println(question, answer);
       temp.newCard(question, answer);
+      selectCards.add(i + ". " + question);
     }
   }
-  
   else if(cardContent[0].equals("Q")) { //code if the file is determined to be for quizzes
+    int j = 1;
     for(int i = 1; i < cardContent.length - 2; i += 5) {
       String question = cardContent[i];
       String answer = cardContent[i+1];
       println(question, answer);
       temp.newCard(question, answer);
+      selectCards.add(j + ". " + question);
+      j++;
     }
+  saveStrings(currentCardPath, selectCards.toArray(new String[selectCards.size()]));
   }
   
   temp.switchCard(0);
@@ -91,6 +98,26 @@ void resetText () {
     QuizAnswer3.setText(Content.get(Current)[3]);
     QuizAnswer4.setText(Content.get(Current)[4]);
   }
+}
+
+void prevCard(){
+  if(currDeck.displayedIndex - 1 >= 0) {
+  currDeck.currCard.Front = true;
+  currDeck.displayedIndex -= 1;
+  currDeck.switchCard(currDeck.displayedIndex);
+  flash_selectCard.setSelected(currDeck.displayedIndex);
+  }
+  else {println("you're at the beginning of the deck!");}
+}
+
+void nextCard(){
+  if(currDeck.displayedIndex + 1 < currDeck.qtCards) {
+  currDeck.currCard.Front = true;
+  currDeck.displayedIndex += 1;
+  currDeck.switchCard(currDeck.displayedIndex);
+  flash_selectCard.setSelected(currDeck.displayedIndex);
+  }
+  else {println("you're at the end of the deck!");}
 }
 
 void customPalette(){

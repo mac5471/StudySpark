@@ -66,20 +66,27 @@ synchronized public void flash_win_draw(PApplet appc, GWinData data) { //_CODE_:
 
 } //_CODE_:flash_win:506712:
 
+synchronized public void flash_keyPressed(PApplet appc, GWinData data, KeyEvent kevent) { //_CODE_:flash_win:858458:
+  if (frameCount - lastPressed > 20){ //Buffer time for key presses
+    lastPressed = frameCount;
+    if (appc.keyCode == LEFT){
+      prevCard();
+    }
+    else if (appc.keyCode == RIGHT){
+      nextCard();
+    }
+    else if (appc.key == ' '){
+      currDeck.flipCard();
+    }
+  }
+} //_CODE_:flash_win:636991:
+
 public void flash_prevCard_clicked(GButton source, GEvent event) { //_CODE_:flash_prevCard:489971:
-  if(currDeck.displayedIndex - 1 >= 0) {
-  currDeck.currCard.Front = true;
-  currDeck.displayedIndex -= 1;
-  currDeck.switchCard(currDeck.displayedIndex);}
-  else {println("you're at the beginning of the deck!");}
+  prevCard();
 } //_CODE_:flash_prevCard:489971:
 
 public void flash_nextCardClicked(GButton source, GEvent event) { //_CODE_:flash_nextCard:861148:
-  if(currDeck.displayedIndex + 1 < currDeck.qtCards) {
-  currDeck.currCard.Front = true;
-  currDeck.displayedIndex += 1;
-  currDeck.switchCard(currDeck.displayedIndex);}
-  else {println("you're at the end of the deck!");}
+  nextCard();
 } //_CODE_:flash_nextCard:861148:
 
 public void flash_flipCard_clicked(GButton source, GEvent event) { //_CODE_:flash_flipCard:517353:
@@ -93,6 +100,11 @@ public void flash_menu_clicked(GButton source, GEvent event) { //_CODE_:flash_me
 public void flash_star_clicked(GButton source, GEvent event) { //_CODE_:flash_star:650691:
   currDeck.starCard();
 } //_CODE_:flash_star:650691:
+
+public void flash_selectCard_clicked(GDropList source, GEvent event) { //_CODE_:flash_selectCard:378885:
+  currDeck.displayedIndex = int(flash_selectCard.getSelectedText().substring(0, 1)) - 1;
+  currDeck.switchCard(currDeck.displayedIndex);
+} //_CODE_:flash_selectCard:378885:
 
 synchronized public void preQuiz_win_draw(PApplet appc, GWinData data) { //_CODE_:preQuiz_win:535086:
   appc.background(backgroundCol);
@@ -444,12 +456,12 @@ public void createGUI(){
   preFlash_back.setText("Back");
   preFlash_back.setLocalColorScheme(GCScheme.ORANGE_SCHEME);
   preFlash_back.addEventHandler(this, "preFlash_back_clicked");
-  label_deck = new GLabel(preFlash_win, 220, 200, 70, 20);
+  label_deck = new GLabel(preFlash_win, 220, 190, 70, 30);
   label_deck.setTextAlign(GAlign.CENTER, GAlign.MIDDLE);
   label_deck.setText("Deck: ");
   label_deck.setLocalColorScheme(GCScheme.ORANGE_SCHEME);
   label_deck.setOpaque(false);
-  preFlash_selectPack = new GDropList(preFlash_win, 290, 190, 270, 120, 3, 10);
+  preFlash_selectPack = new GDropList(preFlash_win, 290, 190, 270, 120, 3, 20);
   preFlash_selectPack.setItems(loadStrings("list_298132"), 0);
   preFlash_selectPack.setLocalColorScheme(GCScheme.GOLD_SCHEME);
   preFlash_selectPack.addEventHandler(this, "preFlash_selectPack_changed");
@@ -463,6 +475,7 @@ public void createGUI(){
   flash_win.noLoop();
   flash_win.setActionOnClose(G4P.EXIT_APP);
   flash_win.addDrawHandler(this, "flash_win_draw");
+  flash_win.addKeyHandler(this, "flash_keyPressed");
   flash_prevCard = new GButton(flash_win, 20, 260, 130, 40);
   flash_prevCard.setText("Prev Card");
   flash_prevCard.setLocalColorScheme(GCScheme.GOLD_SCHEME);
@@ -483,6 +496,10 @@ public void createGUI(){
   flash_star.setText("Star Card");
   flash_star.setLocalColorScheme(GCScheme.GOLD_SCHEME);
   flash_star.addEventHandler(this, "flash_star_clicked");
+  flash_selectCard = new GDropList(flash_win, 280, 30, 240, 120, 3, 20);
+  flash_selectCard.setItems(loadStrings("list_378885"), 0);
+  flash_selectCard.setLocalColorScheme(GCScheme.ORANGE_SCHEME);
+  flash_selectCard.addEventHandler(this, "flash_selectCard_clicked");
   preQuiz_win = GWindow.getWindow(this, "Quiz", 0, 0, 800, 500, JAVA2D);
   preQuiz_win.noLoop();
   preQuiz_win.setActionOnClose(G4P.EXIT_APP);
@@ -495,12 +512,12 @@ public void createGUI(){
   preQuiz_confirm.setText("Confirm");
   preQuiz_confirm.setLocalColorScheme(GCScheme.GOLD_SCHEME);
   preQuiz_confirm.addEventHandler(this, "preQuiz_confirm_clicked");
-  label_deck_1 = new GLabel(preQuiz_win, 220, 200, 70, 20);
+  label_deck_1 = new GLabel(preQuiz_win, 220, 190, 70, 30);
   label_deck_1.setTextAlign(GAlign.CENTER, GAlign.MIDDLE);
   label_deck_1.setText("Deck:");
   label_deck_1.setLocalColorScheme(GCScheme.ORANGE_SCHEME);
   label_deck_1.setOpaque(false);
-  preQuiz_selectPack = new GDropList(preQuiz_win, 290, 190, 280, 120, 3, 10);
+  preQuiz_selectPack = new GDropList(preQuiz_win, 290, 190, 280, 120, 3, 20);
   preQuiz_selectPack.setItems(loadStrings("list_840257"), 0);
   preQuiz_selectPack.setLocalColorScheme(GCScheme.GOLD_SCHEME);
   preQuiz_selectPack.addEventHandler(this, "preQuiz_selectPack_changed");
@@ -680,6 +697,7 @@ GButton flash_nextCard;
 GButton flash_flipCard; 
 GButton flash_menu; 
 GButton flash_star; 
+GDropList flash_selectCard; 
 GWindow preQuiz_win;
 GButton preQuiz_back; 
 GButton preQuiz_confirm; 

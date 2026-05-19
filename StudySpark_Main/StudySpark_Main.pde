@@ -10,6 +10,8 @@ int screenHeight = 500;
 color backgroundCol = color(255, 248, 230);
 PImage logo, flashIcon, quizIcon;
 
+int lastPressed = 0;
+
 ArrayList<String[]> Content;
 String Title;
 int Current;
@@ -38,16 +40,24 @@ void setup() {
 
   File decksFolder = new File(decksPath);
   File [] avaliableDecks = decksFolder.listFiles();
-  String [] avaliableDecksStrings = new String[avaliableDecks.length];
+  ArrayList<String> flashOptionsList = new ArrayList<String>();
+  ArrayList<String> quizOptionsList = new ArrayList<String>();
   
-  int i = 0;
+  String deckName;
+  
   for (File f : avaliableDecks){
-    avaliableDecksStrings[i] = f.getName().replace(".txt", "");
-    i++;
+    String[] currDeck = loadStrings("decks/" + f.getName());
+    deckName = f.getName();
+    flashOptionsList.add(deckName.replace(".txt", ""));
+    if (currDeck[0].equals("Q")){
+      quizOptionsList.add(deckName.replace(".txt", ""));
+    }
   }
+  String[] flashOptions = flashOptionsList.toArray(new String[flashOptionsList.size()]);
+  String[] quizOptions = quizOptionsList.toArray(new String[quizOptionsList.size()]);
   
-  saveStrings(flashPath, avaliableDecksStrings);
-  saveStrings(quizPath, avaliableDecksStrings);
+  saveStrings(flashPath, flashOptions);
+  saveStrings(quizPath, quizOptions);
   
   NewButton.setVisible(false);
   Export.setVisible(false);
@@ -72,5 +82,4 @@ void setup() {
 
 void draw() {
   screenControls();
-  
 }
