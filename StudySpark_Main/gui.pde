@@ -58,11 +58,9 @@ public void preFlash_selectPack_changed(GDropList source, GEvent event) { //_COD
 public void preFlash_random_clicked(GCheckbox source, GEvent event) { //_CODE_:preFlash_random:927307:
   if (preFlash_random.isSelected()){
     Set = false;
-    print(Set);
   }
   else{
     Set = true;
-    print(Set);
   }
 } //_CODE_:preFlash_random:927307:
 
@@ -74,7 +72,7 @@ synchronized public void flash_win_draw(PApplet appc, GWinData data) { //_CODE_:
 } //_CODE_:flash_win:506712:
 
 synchronized public void flash_keyPressed(PApplet appc, GWinData data, KeyEvent kevent) { //_CODE_:flash_win:858458:
-  if (frameCount - lastPressed > 20){ //Buffer time for key presses
+  if (frameCount - lastPressed > 15){ //Buffer time for key presses
     lastPressed = frameCount;
     if (appc.keyCode == LEFT){
       prevCard();
@@ -151,10 +149,6 @@ public void preQuiz_confirm_clicked(GButton source, GEvent event) { //_CODE_:pre
 public void preQuiz_selectPack_changed(GDropList source, GEvent event) { //_CODE_:preQuiz_selectPack:840257:
   println("preQuiz_selectPack - GDropList >> GEvent." + event + " @ " + millis());
 } //_CODE_:preQuiz_selectPack:840257:
-
-public void preQuiz_random_clicked(GCheckbox source, GEvent event) { //_CODE_:preQuiz_random:534914:
-  println("preQuiz_random - GCheckbox >> GEvent." + event + " @ " + millis());
-} //_CODE_:preQuiz_random:534914:
 
 synchronized public void quiz_win_draw(PApplet appc, GWinData data) { //_CODE_:quiz_win:934516:
   appc.background(backgroundCol);
@@ -290,6 +284,7 @@ public void preCreate_quiz_clicked(GButton source, GEvent event) { //_CODE_:preC
 } //_CODE_:preCreate_quiz:707934:
 
 public void preCreate_back_clicked(GButton source, GEvent event) { //_CODE_:preCreate_back:670630:
+  preCreate_name.setText("");
   screen = 1;
 } //_CODE_:preCreate_back:670630:
 
@@ -304,6 +299,8 @@ synchronized public void create_win_draw(PApplet appc, GWinData data) { //_CODE_
 } //_CODE_:create_win:668682:
 
 public void create_menu_clicked(GButton source, GEvent event) { //_CODE_:create_menu:273282:
+  preCreate_name.setText("");
+  clearText();
   screen = 1;
 } //_CODE_:create_menu:273282:
 
@@ -475,7 +472,7 @@ public void createGUI(){
   label_deck.setTextAlign(GAlign.CENTER, GAlign.MIDDLE);
   label_deck.setText("Deck: ");
   label_deck.setOpaque(false);
-  preFlash_selectPack = new GDropList(preFlash_win, 290, 190, 270, 120, 3, 20);
+  preFlash_selectPack = new GDropList(preFlash_win, 290, 190, 280, 120, 3, 20);
   preFlash_selectPack.setItems(loadStrings("list_298132"), 0);
   preFlash_selectPack.setLocalColorScheme(GCScheme.GOLD_SCHEME);
   preFlash_selectPack.addEventHandler(this, "preFlash_selectPack_changed");
@@ -518,7 +515,7 @@ public void createGUI(){
   preQuiz_back = new GButton(preQuiz_win, 20, 20, 90, 30);
   preQuiz_back.setText("Back");
   preQuiz_back.addEventHandler(this, "preQuiz_back_clicked");
-  preQuiz_confirm = new GButton(preQuiz_win, 350, 350, 100, 30);
+  preQuiz_confirm = new GButton(preQuiz_win, 350, 280, 100, 30);
   preQuiz_confirm.setText("Confirm");
   preQuiz_confirm.setLocalColorScheme(GCScheme.GOLD_SCHEME);
   preQuiz_confirm.addEventHandler(this, "preQuiz_confirm_clicked");
@@ -530,12 +527,6 @@ public void createGUI(){
   preQuiz_selectPack.setItems(loadStrings("list_840257"), 0);
   preQuiz_selectPack.setLocalColorScheme(GCScheme.GOLD_SCHEME);
   preQuiz_selectPack.addEventHandler(this, "preQuiz_selectPack_changed");
-  preQuiz_random = new GCheckbox(preQuiz_win, 300, 320, 210, 20);
-  preQuiz_random.setIconAlign(GAlign.LEFT, GAlign.MIDDLE);
-  preQuiz_random.setText("Randomized Order");
-  preQuiz_random.setLocalColorScheme(GCScheme.GOLD_SCHEME);
-  preQuiz_random.setOpaque(false);
-  preQuiz_random.addEventHandler(this, "preQuiz_random_clicked");
   quiz_win = GWindow.getWindow(this, "Quiz", 0, 0, 800, 500, JAVA2D);
   quiz_win.noLoop();
   quiz_win.setActionOnClose(G4P.EXIT_APP);
@@ -722,7 +713,6 @@ GButton preQuiz_back;
 GButton preQuiz_confirm; 
 GLabel label_deck_1; 
 GDropList preQuiz_selectPack; 
-GCheckbox preQuiz_random; 
 GWindow quiz_win;
 GButton quiz_menu; 
 GButton quiz_A; 

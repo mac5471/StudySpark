@@ -139,23 +139,37 @@ void resetText () {
   }
 }
 
+void clearText () {
+  QuestionText.setText("");
+  
+  if(Card) {
+    CardAnswerText.setText("");
+  }
+  else {
+    QuizAnswer1.setText("");
+    QuizAnswer2.setText("");
+    QuizAnswer3.setText("");
+    QuizAnswer4.setText("");
+  }
+}
+
 void prevCard(){
   if(currDeck.displayedIndex - 1 >= 0) {
-  currDeck.currCard.Front = true;
-  currDeck.displayedIndex -= 1;
-  currDeck.switchCard(Order[currDeck.displayedIndex]);
-  flash_selectCard.setSelected(currDeck.displayedIndex);
+    currDeck.currCard.Front = true;
+    currDeck.displayedIndex -= 1;
+    currDeck.switchCard(Order[currDeck.displayedIndex]);
+    flash_selectCard.setSelected(currDeck.displayedIndex);
   }
   else {println("you're at the beginning of the deck!");}
 }
 
 void nextCard(){
   if(currDeck.displayedIndex + 1 < currDeck.qtCards) {
-  currDeck.currCard.Front = true;
-  currDeck.displayedIndex += 1;
-  //println(currDeck.displayedIndex);
-  currDeck.switchCard(Order[currDeck.displayedIndex]);
-  flash_selectCard.setSelected(currDeck.displayedIndex);
+    currDeck.currCard.Front = true;
+    currDeck.displayedIndex += 1;
+    //println(currDeck.displayedIndex);
+    currDeck.switchCard(Order[currDeck.displayedIndex]);
+    flash_selectCard.setSelected(currDeck.displayedIndex);
   }
   else {println("you're at the end of the deck!");}
 }
