@@ -5,7 +5,6 @@ void loadDeck (String name) { //loads a deck from its file
   temp = new Deck(name); //creates temporary deck 'temp'
   
   ArrayList<String> selectCards = new ArrayList<String>();
-  String currentCardPath = dataPath("list_378885");
   
   if(cardContent[0].equals("D")) { //code if the file is determined to be for flashcard decks
     for(int i = 1; i < cardContent.length; i += 2) {
@@ -49,7 +48,7 @@ void loadQuizData(String filename) {
       String[] ops = { lines[i+1], lines[i+2], lines[i+3], lines[i+4] };
       activeQuiz.addQuestion(qText, ops);
     }
-    println("Quiz loaded with " + activeQuiz.questions.size() + " questions.");
+    //println("Quiz loaded with " + activeQuiz.questions.size() + " questions.");
   }
 }
 
@@ -149,8 +148,6 @@ void customPalette(){
 
 void updateDropdowns(){
   String decksPath = sketchPath("decks");
-  //String flashPath = dataPath("list_298132");
-  //String quizPath = dataPath("list_840257");
 
   File decksFolder = new File(decksPath);
   File [] avaliableDecks = decksFolder.listFiles();
@@ -170,8 +167,55 @@ void updateDropdowns(){
   String[] flashOptions = flashOptionsList.toArray(new String[flashOptionsList.size()]);
   String[] quizOptions = quizOptionsList.toArray(new String[quizOptionsList.size()]);
   
-  //saveStrings(flashPath, flashOptions);
-  //saveStrings(quizPath, quizOptions);
   preFlash_selectPack.setItems(flashOptions, 0);
   preQuiz_selectPack.setItems(quizOptions, 0);
+}
+
+void loadIncorrectQuestions(){
+  if (activeQuiz.incorrectQuestions != null){
+    if (activeQuiz.incorrectQuestions.isEmpty()){
+      String[] incorrectQuestionsArray = new String[1];
+      incorrectQuestionsArray[0] = "N/A";
+      postQuiz_incorrect.setItems(incorrectQuestionsArray, 0);
+      
+      label_incorrect.setVisible(false);
+      label_question.setVisible(false);
+      label_yourAnswer.setVisible(false);
+      label_corrAnswer.setVisible(false);
+      postQuiz_incorrect.setVisible(false);
+      question_display.setVisible(false);
+      yourAnswer_display.setVisible(false);
+      corrAnswer_display.setVisible(false);
+      
+    }
+    else{
+      String[] incorrectQuestionsArray = new String[activeQuiz.incorrectQuestions.size()];
+      
+      int i = 0;
+      for (QuizQuestion q: activeQuiz.incorrectQuestions){
+        incorrectQuestionsArray[i] = i+1 + ". " + q.questionText;
+        i++;
+      }
+      postQuiz_incorrect.setItems(incorrectQuestionsArray, 0);
+      
+      label_incorrect.setVisible(true);
+      label_question.setVisible(true);
+      label_yourAnswer.setVisible(true);
+      label_corrAnswer.setVisible(true);
+      postQuiz_incorrect.setVisible(true);
+      question_display.setVisible(true);
+      yourAnswer_display.setVisible(true);
+      corrAnswer_display.setVisible(true);
+    }
+  }
+}
+
+void updateIncorrect(){
+  if (!activeQuiz.incorrectQuestions.isEmpty()){
+    int selectedIndex = postQuiz_incorrect.getSelectedIndex();
+    QuizQuestion[] questions = activeQuiz.incorrectQuestions.toArray(new QuizQuestion[activeQuiz.incorrectQuestions.size()]);
+    question_display.setText(postQuiz_incorrect.getSelectedText());
+    yourAnswer_display.setText(activeQuiz.incorrectAnswers.get(selectedIndex));
+    corrAnswer_display.setText(questions[selectedIndex].correctAnsText);
+  }
 }

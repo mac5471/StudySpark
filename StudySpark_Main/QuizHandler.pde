@@ -3,11 +3,15 @@ class QuizHandler {
   int currentIndex, score;
   boolean isFinished;
   ArrayList<QuizQuestion> questions;
+  ArrayList<QuizQuestion> incorrectQuestions;
+  ArrayList<String> incorrectAnswers;
   QuizQuestion currentQ;
 
   QuizHandler(String t) {
     this.title = t;
     this.questions = new ArrayList<QuizQuestion>();
+    this.incorrectQuestions = new ArrayList<QuizQuestion>();
+    this.incorrectAnswers = new ArrayList<String>();
     this.currentIndex = 0;
     this.score = 0;
     this.isFinished = false;
@@ -26,7 +30,9 @@ class QuizHandler {
       this.score++;
     } else {
       this.currentQ.wasCorrect = false;
-    }
+      this.incorrectQuestions.add(this.currentQ);
+      this.incorrectAnswers.add(this.currentQ.options[selectedIndex]);
+  }
     this.moveNext();
   }
 
@@ -35,6 +41,8 @@ class QuizHandler {
       this.currentIndex++;
       this.currentQ = this.questions.get(this.currentIndex);
     } else {
+      loadIncorrectQuestions();
+      updateIncorrect();
       this.isFinished = true;
     }
   }

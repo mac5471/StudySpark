@@ -3,6 +3,7 @@ class QuizQuestion {
   String[] options;
   String correctAnsText;
   boolean wasCorrect;
+  int index;
 
   QuizQuestion(String q, String[] ops) {
     this.questionText = q;
@@ -14,7 +15,7 @@ class QuizQuestion {
     }
     
     for (int i = this.options.length - 1; i > 0; i--) {
-      int index = int(random(i + 1));
+      index = int(random(i + 1));
       String temp = this.options[index];
       this.options[index] = this.options[i];
       this.options[i] = temp;
