@@ -4,33 +4,73 @@ void loadDeck (String name) { //loads a deck from its file
   Deck temp;
   temp = new Deck(name); //creates temporary deck 'temp'
   
-  ArrayList<String> selectCards = new ArrayList<String>();
+  selectCards = new ArrayList<String>();
+  String question;
   
   if(cardContent[0].equals("D")) { //code if the file is determined to be for flashcard decks
     for(int i = 1; i < cardContent.length; i += 2) {
-      String question = cardContent[i];
+      question = cardContent[i];
       String answer = cardContent[i+1];
       //println(question, answer);
       temp.newCard(question, answer);
-      selectCards.add(i + ". " + question);
+      selectCards.add(question);
     }
   }
   else if(cardContent[0].equals("Q")) { //code if the file is determined to be for quizzes
-    int j = 1;
     for(int i = 1; i < cardContent.length - 2; i += 5) {
-      String question = cardContent[i];
+      question = cardContent[i];
       String answer = cardContent[i+1];
       //println(question, answer);
       temp.newCard(question, answer);
-      selectCards.add(j + ". " + question);
-      j++;
+      selectCards.add(question);
     }
   }
-  temp.switchCard(0);
   currDeck = temp;
-  String[] selectCardsArray = selectCards.toArray(new String[selectCards.size()]);
-  flash_selectCard.setItems(selectCardsArray, 0);
+  orderCards();
+  currDeck.switchCard(Order[0]);
+  
+  updateCardOptions(selectCards);
+  
 }//close loadDeck() function
+
+void updateCardOptions(ArrayList<String> selectCards){
+  String[] selectCardsArray = selectCards.toArray(new String[selectCards.size()]);
+  orderedSelectCardsArray = new String[selectCards.size()];
+  
+  int j = 0;
+  for (int i = 0; i < selectCardsArray.length; i++){
+    j = Order[i];
+    orderedSelectCardsArray[i] = i+1 + ". " + selectCardsArray[j];
+  }
+  flash_selectCard.setItems(orderedSelectCardsArray, 0);
+}
+
+void orderCards() {//randomises the order of the current deck
+  int size = currDeck.Cards.size();
+  
+  Order = new int[size];
+    
+    for(int i = 0; i < size; i++) {
+    Order[i] = i;
+    }
+ 
+  if(! Set) {
+  IntList newOrder;
+  newOrder = new IntList();
+    
+  for(int i = 0; i < size; i++) {
+    newOrder.append(i);
+  }
+  
+  newOrder.shuffle();
+  
+  for(int i = 0; i < size; i++) {
+    Order[i] = newOrder.get(i);
+  }
+  
+  }// close not-set case
+
+}//close orderCards() function
 
 QuizHandler activeQuiz;
 
@@ -103,7 +143,7 @@ void prevCard(){
   if(currDeck.displayedIndex - 1 >= 0) {
   currDeck.currCard.Front = true;
   currDeck.displayedIndex -= 1;
-  currDeck.switchCard(currDeck.displayedIndex);
+  currDeck.switchCard(Order[currDeck.displayedIndex]);
   flash_selectCard.setSelected(currDeck.displayedIndex);
   }
   else {println("you're at the beginning of the deck!");}
@@ -113,7 +153,8 @@ void nextCard(){
   if(currDeck.displayedIndex + 1 < currDeck.qtCards) {
   currDeck.currCard.Front = true;
   currDeck.displayedIndex += 1;
-  currDeck.switchCard(currDeck.displayedIndex);
+  //println(currDeck.displayedIndex);
+  currDeck.switchCard(Order[currDeck.displayedIndex]);
   flash_selectCard.setSelected(currDeck.displayedIndex);
   }
   else {println("you're at the end of the deck!");}

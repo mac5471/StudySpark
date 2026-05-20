@@ -2,13 +2,15 @@ import g4p_controls.*;
 import java.io.File;
 
 Deck currDeck;
+int[] Order;
+boolean Set;
 
 int screen = 1;
 int prevScreen = 0;
 int screenWidth = 800;
 int screenHeight = 500;
 color backgroundCol = color(255, 248, 230);
-PImage logo, flashIcon, quizIcon;
+PImage logo, flashIcon, quizIcon, sparkIcon;
 
 int lastPressed = 0;
 
@@ -16,6 +18,9 @@ ArrayList<String[]> Content;
 String Title;
 int Current;
 boolean Card; //if creating card vs. quiz
+
+ArrayList<String> selectCards = new ArrayList<String>();
+String[] orderedSelectCardsArray = new String[selectCards.size()];
 
 PrintWriter exporter;
 
@@ -33,6 +38,9 @@ void setup() {
   logo = loadImage("StudySparkLogo.PNG");
   flashIcon = loadImage("FlashcardIcon.PNG");
   quizIcon = loadImage("QuizIcon.PNG");
+  sparkIcon = loadImage("Spark.PNG");
+  
+  imageMode(CENTER);
   
   updateDropdowns();
   

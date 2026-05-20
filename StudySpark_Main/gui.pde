@@ -56,7 +56,14 @@ public void preFlash_selectPack_changed(GDropList source, GEvent event) { //_COD
 } //_CODE_:preFlash_selectPack:298132:
 
 public void preFlash_random_clicked(GCheckbox source, GEvent event) { //_CODE_:preFlash_random:927307:
-  println("preFlash_random - GCheckbox >> GEvent." + event + " @ " + millis());
+  if (preFlash_random.isSelected()){
+    Set = false;
+    print(Set);
+  }
+  else{
+    Set = true;
+    print(Set);
+  }
 } //_CODE_:preFlash_random:927307:
 
 synchronized public void flash_win_draw(PApplet appc, GWinData data) { //_CODE_:flash_win:506712:
@@ -77,6 +84,9 @@ synchronized public void flash_keyPressed(PApplet appc, GWinData data, KeyEvent 
     }
     else if (appc.key == ' '){
       currDeck.flipCard();
+    }
+    else if (appc.key == 's'){
+      currDeck.starCard();
     }
   }
 } //_CODE_:flash_win:636991:
@@ -102,7 +112,7 @@ public void flash_star_clicked(GButton source, GEvent event) { //_CODE_:flash_st
 } //_CODE_:flash_star:650691:
 
 public void flash_selectCard_clicked(GDropList source, GEvent event) { //_CODE_:flash_selectCard:378885:
-  currDeck.displayedIndex = int(flash_selectCard.getSelectedText().substring(0, 1)) - 1;
+  currDeck.displayedIndex = Order[int(flash_selectCard.getSelectedText().substring(0, 1)) - 1];
   currDeck.switchCard(currDeck.displayedIndex);
 } //_CODE_:flash_selectCard:378885:
 
@@ -152,10 +162,10 @@ synchronized public void quiz_win_draw(PApplet appc, GWinData data) { //_CODE_:q
     if (!activeQuiz.isFinished) {
       QuizQuestion q = activeQuiz.currentQ;
       
-      appc.fill(0);
+      appc.fill(83, 54, 40);
       appc.textAlign(CENTER);
       appc.textSize(24);
-      appc.text(q.questionText, width/2, 100);
+      appc.text(q.questionText, width/2, 120);
       
       appc.textAlign(LEFT);
       appc.textSize(24);
@@ -164,8 +174,8 @@ synchronized public void quiz_win_draw(PApplet appc, GWinData data) { //_CODE_:q
       appc.text(q.options[2], 225, 340);
       appc.text(q.options[3], 225, 400);
       // added score
-      appc.textAlign(RIGHT);
-      appc.text("Score: " + activeQuiz.score + "/" + activeQuiz.questions.size(), width-20, 45);
+      //appc.textAlign(RIGHT);
+      //appc.text("Score: " + activeQuiz.score + "/" + activeQuiz.questions.size(), width-20, 45);
     } else if (screen == 5) {
       screen = 6;
     }

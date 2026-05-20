@@ -44,6 +44,10 @@ void drawMe(PApplet appc) { //draws a card.
   else {content = this.Answer;}
   appc.text(content, this.Position.x + this.sideLength/2, this.Position.y + this.sideHeight/2);
   
+  if (this.Star == true){
+    appc.image(sparkIcon, this.Position.x + this.sideLength/1.22, this.Position.y + this.sideHeight/15, 70, 70);
+  }
+  
 }//close drawMe() method
 
 }//close Card class
