@@ -1,6 +1,8 @@
 import g4p_controls.*;
 
 Deck currDeck; //The deck currently being displayed
+int[] Order;
+boolean Set;
 
 void setup() {
   size(500,400);

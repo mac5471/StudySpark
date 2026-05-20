@@ -22,7 +22,8 @@ public void nextCard(GButton source, GEvent event) { //_CODE_:nextButton:541649:
   if(currDeck.displayedIndex + 1 < currDeck.qtCards) {
   currDeck.currCard.Front = true;
   currDeck.displayedIndex += 1;
-  currDeck.switchCard(currDeck.displayedIndex);}
+  println(currDeck.displayedIndex);
+  currDeck.switchCard(Order[currDeck.displayedIndex]);}
   else {println("you're at the end of the deck!");}
 } //_CODE_:nextButton:541649:
 
@@ -34,7 +35,7 @@ public void prevCard(GButton source, GEvent event) { //_CODE_:prevButton:615710:
   if(currDeck.displayedIndex - 1 >= 0) {
   currDeck.currCard.Front = true;
   currDeck.displayedIndex -= 1;
-  currDeck.switchCard(currDeck.displayedIndex);}
+  currDeck.switchCard(Order[currDeck.displayedIndex]);}
   else {println("you're at the beginning of the deck!");}
 } //_CODE_:prevButton:615710:
 
@@ -48,7 +49,18 @@ public void textfield1_change1(GTextField source, GEvent event) { //_CODE_:deckn
 public void submitname(GButton source, GEvent event) { //_CODE_:submitbutton:260575:
   String temp = deckname.getText();
   loadDeck(temp);
+      
 } //_CODE_:submitbutton:260575:
+
+public void selectedRandom(GOption source, GEvent event) { //_CODE_:choiceRandom:915295:
+  Set = false;
+  print(Set);
+} //_CODE_:choiceRandom:915295:
+
+public void selectedSet(GOption source, GEvent event) { //_CODE_:choiceSet:346455:
+  Set = true;
+  print(Set);
+} //_CODE_:choiceSet:346455:
 
 
 
@@ -85,6 +97,23 @@ public void createGUI(){
   submitbutton = new GButton(window1, 205, 251, 80, 30);
   submitbutton.setText("Enter");
   submitbutton.addEventHandler(this, "submitname");
+  togGroup1 = new GToggleGroup();
+  choiceRandom = new GOption(window1, 200, 170, 120, 20);
+  choiceRandom.setIconAlign(GAlign.LEFT, GAlign.MIDDLE);
+  choiceRandom.setText("Random");
+  choiceRandom.setOpaque(false);
+  choiceRandom.addEventHandler(this, "selectedRandom");
+  choiceSet = new GOption(window1, 200, 190, 120, 20);
+  choiceSet.setIconAlign(GAlign.LEFT, GAlign.MIDDLE);
+  choiceSet.setText("Set");
+  choiceSet.setOpaque(false);
+  choiceSet.addEventHandler(this, "selectedSet");
+  togGroup1.addControl(choiceRandom);
+  choiceRandom.setSelected(true);
+  togGroup1.addControl(choiceSet);
+  label2 = new GLabel(window1, 200, 150, 80, 20);
+  label2.setText("Order");
+  label2.setOpaque(false);
   window1.loop();
 }
 
@@ -98,3 +127,7 @@ GButton starButton;
 GTextField deckname; 
 GLabel label1; 
 GButton submitbutton; 
+GToggleGroup togGroup1; 
+GOption choiceRandom; 
+GOption choiceSet; 
+GLabel label2; 
