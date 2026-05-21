@@ -53,5 +53,4 @@ void resetScreens(){
   QuizAnswer2.setVisible(false);
   QuizAnswer3.setVisible(false);
   QuizAnswer4.setVisible(false);
-  
 }

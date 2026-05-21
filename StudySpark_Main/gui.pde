@@ -240,6 +240,13 @@ public void preCreate_deck_clicked(GButton source, GEvent event) { //_CODE_:preC
  String[] temp = {"", ""};
  Content.add(temp);
  
+ CorrAns.setVisible(false);
+ CorrAnsLabel.setVisible(false);
+ QuizAnswer1.setVisible(false);
+ QuizAnswer2.setVisible(false);
+ QuizAnswer3.setVisible(false);
+ QuizAnswer4.setVisible(false);
+ 
  CardAnswerText.setVisible(true);
  QuestionText.setVisible(true);
  NewButton.setVisible(true);
@@ -248,6 +255,7 @@ public void preCreate_deck_clicked(GButton source, GEvent event) { //_CODE_:preC
  NextButton.setVisible(true);
  DeleteButton.setVisible(true);
  UpdateButton.setVisible(true);
+
   
  Card = true;
 } //_CODE_:preCreate_deck:390849:
