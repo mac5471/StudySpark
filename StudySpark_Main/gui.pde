@@ -147,7 +147,6 @@ public void preQuiz_confirm_clicked(GButton source, GEvent event) { //_CODE_:pre
 } //_CODE_:preQuiz_confirm:206394:
 
 public void preQuiz_selectPack_changed(GDropList source, GEvent event) { //_CODE_:preQuiz_selectPack:840257:
-  println("preQuiz_selectPack - GDropList >> GEvent." + event + " @ " + millis());
 } //_CODE_:preQuiz_selectPack:840257:
 
 synchronized public void quiz_win_draw(PApplet appc, GWinData data) { //_CODE_:quiz_win:934516:
@@ -167,9 +166,7 @@ synchronized public void quiz_win_draw(PApplet appc, GWinData data) { //_CODE_:q
       appc.text(q.options[1], 225, 280);
       appc.text(q.options[2], 225, 340);
       appc.text(q.options[3], 225, 400);
-      // added score
-      //appc.textAlign(RIGHT);
-      //appc.text("Score: " + activeQuiz.score + "/" + activeQuiz.questions.size(), width-20, 45);
+
     } else if (screen == 5) {
       screen = 6;
     }
@@ -637,11 +634,11 @@ public void createGUI(){
   Export = new GButton(create_win, 60, 440, 240, 40);
   Export.setText("Finish and Export");
   Export.addEventHandler(this, "ExportContent");
-  PrevButton = new GButton(create_win, 40, 200, 130, 40);
+  PrevButton = new GButton(create_win, 40, 190, 130, 40);
   PrevButton.setText("Previous");
   PrevButton.setLocalColorScheme(GCScheme.GOLD_SCHEME);
   PrevButton.addEventHandler(this, "Previous");
-  NextButton = new GButton(create_win, 190, 200, 130, 40);
+  NextButton = new GButton(create_win, 190, 190, 130, 40);
   NextButton.setText("Next");
   NextButton.setLocalColorScheme(GCScheme.GOLD_SCHEME);
   NextButton.addEventHandler(this, "Next");
@@ -680,6 +677,7 @@ public void createGUI(){
   CorrAnsLabel.setTextAlign(GAlign.CENTER, GAlign.MIDDLE);
   CorrAnsLabel.setText("Correct Answer:");
   CorrAnsLabel.setOpaque(false);
+  togGroup1 = new GToggleGroup();
   menu_win.loop();
   preFlash_win.loop();
   flash_win.loop();
@@ -754,3 +752,4 @@ GTextField QuizAnswer2;
 GTextField QuizAnswer4; 
 GDropList CorrAns; 
 GLabel CorrAnsLabel; 
+GToggleGroup togGroup1; 

@@ -202,16 +202,17 @@ void customPalette(){
 }
 
 void updateDropdowns(){
-  String decksPath = sketchPath("decks");
+  String decksPath = sketchPath("decks"); //make a path to decks folder
 
   File decksFolder = new File(decksPath);
-  File [] avaliableDecks = decksFolder.listFiles();
+  File [] avaliableDecks = decksFolder.listFiles(); //read files in decks
+  
   ArrayList<String> flashOptionsList = new ArrayList<String>();
   ArrayList<String> quizOptionsList = new ArrayList<String>();
   
   String deckName;
   
-  for (File f : avaliableDecks){
+  for (File f : avaliableDecks){ //for each file in decks, read if file is a quiz or flashcard and add to appropriate array
     String[] currDeck = loadStrings("decks/" + f.getName());
     deckName = f.getName();
     flashOptionsList.add(deckName.replace(".txt", ""));
@@ -219,16 +220,18 @@ void updateDropdowns(){
       quizOptionsList.add(deckName.replace(".txt", ""));
     }
   }
+  
   String[] flashOptions = flashOptionsList.toArray(new String[flashOptionsList.size()]);
   String[] quizOptions = quizOptionsList.toArray(new String[quizOptionsList.size()]);
   
+  //update dropdown items
   preFlash_selectPack.setItems(flashOptions, 0);
   preQuiz_selectPack.setItems(quizOptions, 0);
 }
 
 void loadIncorrectQuestions(){
   if (activeQuiz.incorrectQuestions != null){
-    if (activeQuiz.incorrectQuestions.isEmpty()){
+    if (activeQuiz.incorrectQuestions.isEmpty()){ // if no answers are incorrect, do not display incorrect GUI
       String[] incorrectQuestionsArray = new String[1];
       incorrectQuestionsArray[0] = "N/A";
       postQuiz_incorrect.setItems(incorrectQuestionsArray, 0);
@@ -241,7 +244,6 @@ void loadIncorrectQuestions(){
       question_display.setVisible(false);
       yourAnswer_display.setVisible(false);
       corrAnswer_display.setVisible(false);
-      
     }
     else{
       String[] incorrectQuestionsArray = new String[activeQuiz.incorrectQuestions.size()];
@@ -251,8 +253,10 @@ void loadIncorrectQuestions(){
         incorrectQuestionsArray[i] = i+1 + ". " + q.questionText;
         i++;
       }
-      postQuiz_incorrect.setItems(incorrectQuestionsArray, 0);
       
+      postQuiz_incorrect.setItems(incorrectQuestionsArray, 0); //update dropdown
+      
+      //display GUI
       label_incorrect.setVisible(true);
       label_question.setVisible(true);
       label_yourAnswer.setVisible(true);
@@ -266,7 +270,7 @@ void loadIncorrectQuestions(){
 }
 
 void updateIncorrect(){
-  if (!activeQuiz.incorrectQuestions.isEmpty()){
+  if (!activeQuiz.incorrectQuestions.isEmpty()){ //update GUI to reflect question selected
     int selectedIndex = postQuiz_incorrect.getSelectedIndex();
     QuizQuestion[] questions = activeQuiz.incorrectQuestions.toArray(new QuizQuestion[activeQuiz.incorrectQuestions.size()]);
     question_display.setText(postQuiz_incorrect.getSelectedText());
