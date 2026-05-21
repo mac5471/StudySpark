@@ -35,14 +35,14 @@ Card(String q, String a) {//open constructor #1
 
 void drawMe(PApplet appc) { //draws a card.
   appc.fill(this.cardColour);
-  appc.textSize(14);
+  appc.textSize(20);
   appc.rect(this.Position.x, this.Position.y, this.sideLength, 3*this.sideLength/5, 10);
   appc.fill(this.textColour);
-  appc.textAlign(CENTER);
+  appc.textAlign(CENTER, CENTER);
   String content;
   if(this.Front) {content = this.Question;}
   else {content = this.Answer;}
-  appc.text(content, this.Position.x + this.sideLength/2, this.Position.y + this.sideHeight/2);
+  appc.text(content, this.Position.x, this.Position.y, this.sideLength-15, this.sideHeight-15);
   
   if (this.Star == true){
     appc.image(sparkIcon, this.Position.x + this.sideLength/1.22, this.Position.y + this.sideHeight/15, 70, 70);

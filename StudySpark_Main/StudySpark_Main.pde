@@ -67,6 +67,7 @@ void setup() {
 
 void draw() {
   screenControls();
+  
   menu_win.setLocation(0, 0);
   preFlash_win.setLocation(0, 0);
   flash_win.setLocation(0, 0);
@@ -75,4 +76,5 @@ void draw() {
   postQuiz_win.setLocation(0, 0);
   preCreate_win.setLocation(0, 0);
   create_win.setLocation(0, 0);
+  surface.setLocation(0, 0);
 }

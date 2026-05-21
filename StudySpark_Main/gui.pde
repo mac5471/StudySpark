@@ -285,6 +285,7 @@ public void preCreate_quiz_clicked(GButton source, GEvent event) { //_CODE_:preC
 
 public void preCreate_back_clicked(GButton source, GEvent event) { //_CODE_:preCreate_back:670630:
   preCreate_name.setText("");
+  clearText();
   screen = 1;
 } //_CODE_:preCreate_back:670630:
 
@@ -645,7 +646,7 @@ public void createGUI(){
   NextButton.setLocalColorScheme(GCScheme.GOLD_SCHEME);
   NextButton.addEventHandler(this, "Next");
   UpdateButton = new GButton(create_win, 40, 70, 280, 30);
-  UpdateButton.setText("Update Content");
+  UpdateButton.setText("Save");
   UpdateButton.setLocalColorScheme(GCScheme.GOLD_SCHEME);
   UpdateButton.addEventHandler(this, "Update");
   NewButton = new GButton(create_win, 40, 120, 130, 40);
