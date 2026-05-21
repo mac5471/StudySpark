@@ -309,7 +309,7 @@ public void textarea2_change1(GTextArea source, GEvent event) { //_CODE_:CardAns
 } //_CODE_:CardAnswerText:480723:
 
 public void ExportContent(GButton source, GEvent event) { //_CODE_:Export:388574:
-  exporter = createWriter("decks/"+ Title + ".txt"); //if you plan on changing the export folder, change "data" to the export folder's name.
+  exporter = createWriter("decks/"+ Title + ".txt"); //saves new decks to decks folder
   
   if(Card) {
   
@@ -334,7 +334,7 @@ public void ExportContent(GButton source, GEvent event) { //_CODE_:Export:388574
       Content.get(i)[1] = temp[Correct];
       Content.get(i)[Correct] = temp2;
       
-      if(! temp[0].equals(" ")) { //ask Sathvik about this later -- should blank answers be permitted?
+      if(! temp[0].equals(" ")) {
        if(! temp[1].equals(" ")) { //prevents questions w/o correct answer from being added.
         exporter.println(temp[0]);
         exporter.println(temp[1]);

@@ -33,7 +33,7 @@ void loadDeck (String name) { //loads a deck from its file
   
 }//close loadDeck() function
 
-void updateCardOptions(ArrayList<String> selectCards){
+void updateCardOptions(ArrayList<String> selectCards){ //update avaliable cards for flashcard dropdown
   String[] selectCardsArray = selectCards.toArray(new String[selectCards.size()]);
   orderedSelectCardsArray = new String[selectCards.size()];
   
@@ -124,7 +124,7 @@ void resetProgram()
   QuizAnswer4.setText("");
 }
 
-void resetText () {
+void resetText () { //update text to reflect selected card in creation tab
   QuestionText.setText(Content.get(Current)[0]);
   
   if(Card) {
@@ -139,7 +139,7 @@ void resetText () {
   }
 }
 
-void clearText () {
+void clearText () { //clear textboxes in creation tabs
   QuestionText.setText("");
   
   if(Card) {
@@ -167,14 +167,13 @@ void nextCard(){
   if(currDeck.displayedIndex + 1 < currDeck.qtCards) {
     currDeck.currCard.Front = true;
     currDeck.displayedIndex += 1;
-    //println(currDeck.displayedIndex);
     currDeck.switchCard(Order[currDeck.displayedIndex]);
     flash_selectCard.setSelected(currDeck.displayedIndex);
   }
   else {println("you're at the end of the deck!");}
 }
 
-void customPalette(){
+void customPalette(){ //overrides existing colours with custom ones
   GCScheme.changePaletteColor(7, 0, color(214, 182, 152));
   GCScheme.changePaletteColor(7, 1, color(182, 147, 118));
   GCScheme.changePaletteColor(7, 2, color(151, 114, 86));
