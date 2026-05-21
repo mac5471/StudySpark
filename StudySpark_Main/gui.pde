@@ -294,7 +294,7 @@ public void preCreate_back_clicked(GButton source, GEvent event) { //_CODE_:preC
   screen = 1;
 } //_CODE_:preCreate_back:670630:
 
-synchronized public void create_win_draw(PApplet appc, GWinData data) { //_CODE_:create_win:668682:
+synchronized public void create_win_draw(PApplet appc, GWinData data) { //_CODE_:create_win:668682: IS THIS CODE STILL NECESSARY?
   appc.background(backgroundCol);
   if(Content != null) {
     textSize(30);
@@ -317,43 +317,35 @@ public void textarea2_change1(GTextArea source, GEvent event) { //_CODE_:CardAns
 } //_CODE_:CardAnswerText:480723:
 
 public void ExportContent(GButton source, GEvent event) { //_CODE_:Export:388574:
-  exporter = createWriter("decks/"+ Title + ".txt"); //saves new decks to decks folder
+  exporter = createWriter("decks/"+ Title + ".txt"); //creates new text file w/ user-set title as name in 'decks' folder
   
-  if(Card) {
-  
+  if(Card) { //export for-loop for flashcard decks
     exporter.println("D");
-  
     for(int i = 0; i < Content.size(); i++) {
       exporter.println(Content.get(i)[0]);
       exporter.println(Content.get(i)[1]); 
-  }
+    }
   }
   
-  else {
+  else { //export for-loop for quizzes.
     exporter.println("Q");
-    
     for(int i = 0; i < Content.size(); i++) {
       
-      String[] temp = Content.get(i);
-      
-      int Correct = int(temp[5]);
+      String[] temp = Content.get(i); //swaps the position of the first answer and the correct answer,
+      int Correct = int(temp[5]);     //allowing for the proper reading of quiz files in the flashcard interface.
       String temp2 = temp[1];
-    
       Content.get(i)[1] = temp[Correct];
       Content.get(i)[Correct] = temp2;
       
-      if(! temp[0].equals(" ")) {
-       if(! temp[1].equals(" ")) { //prevents questions w/o correct answer from being added.
+      if(! temp[0].equals(" ") || (! temp[1].equals(" "))) { //prevents questions w/o question text or a correct answer from being saved.
         exporter.println(temp[0]);
         exporter.println(temp[1]);
         exporter.println(temp[2]);
         exporter.println(temp[3]);
         exporter.println(temp[4]);
-       }
-    }
-    
-  }
-  }
+      }//closes no-question check. 
+    }//closes question-print for-loop.
+  }//closes quiz conditional.
   
   exporter.flush();
   exporter.close();
@@ -376,43 +368,52 @@ public void Next(GButton source, GEvent event) { //_CODE_:NextButton:908041:
 } //_CODE_:NextButton:908041:
 
 public void Update(GButton source, GEvent event) { //_CODE_:UpdateButton:994854:
-  if(Card) {
-  Content.get(Current)[0] = QuestionText.getText();
-  Content.get(Current)[1] = CardAnswerText.getText();}
+  String[] temp = Content.get(Current); //temporary storage of the card to be updated, to prevent calling the same obj. mult. times
+
+  temp[0] = QuestionText.getText();
+  temp[1] = CardAnswerText.getText();
   
-  else {
-    Content.get(Current)[0] = QuestionText.getText();
-    print(Content.get(Current)[0]);
-    Content.get(Current)[1] = QuizAnswer1.getText();
-    Content.get(Current)[2] = QuizAnswer2.getText();
-    Content.get(Current)[3] = QuizAnswer3.getText();
-    Content.get(Current)[4] = QuizAnswer4.getText();
-    Content.get(Current)[5] = str(CorrAns.getSelectedIndex() + 1);
+  if(!Card) { //extra information saved b/c quiz.
+    temp[2] = QuizAnswer2.getText();
+    temp[3] = QuizAnswer3.getText();
+    temp[4] = QuizAnswer4.getText();
+    temp[5] = str(CorrAns.getSelectedIndex() + 1);
    }
 } //_CODE_:UpdateButton:994854:
 
 public void New(GButton source, GEvent event) { //_CODE_:NewButton:814028:
- String[] temp;
+ String[] temp; //creates temporary information container 'temp'.
+
+ //for flashcard decks, only two pieces of information are needed: question and answer. 
  if(Card) {temp = new String[2]; temp[0] = ""; temp[1] = "";}
+ 
+ //for quizzes, six pieces of information are needed: question, answer 1, answer 2, answer 3, answer 4, and the number of the correct answer.
  else {temp = new String[6]; temp[0] = ""; temp[1] = ""; temp[2] = ""; temp[3] = ""; temp[4] = ""; temp[5] = "1";}
- Content.add(temp);
- Current ++;
+ 
+ Content.add(temp);   //temp is added to the list of content and becomes editable.
+ Current ++;          //the quiz/deck creation interface then moves onto the new, empty content.
  resetText();
 } //_CODE_:NewButton:814028:
 
 public void Delete(GButton source, GEvent event) { //_CODE_:DeleteButton:881527:
- if(Content.size() > 1) {
+ if(Content.size() > 1) { //if-check to check that the user isn't deleting the only question/card.
   Content.remove(Content.get(Current));
+  if(Current == Content.size()) {Current --;}
+ }
   
-  if(Current == Content.size()) {
-  Current --;}
-  }
+ else { //if it is the only question/card, simply clears all text.
+  String[] toBeDeleted = Content.get(0);
+ 
+  toBeDeleted[0] = "";
+  toBeDeleted[1] = "";
   
-  else {
-  Content.get(0)[0] = "";
-  Content.get(0)[1] = "";
-  }
-  
+  if(!Card) { //since quizzes store more information, more information needs to be reset on quiz creation.
+    toBeDeleted[2] = "";
+    toBeDeleted[3] = "";
+    toBeDeleted[4] = "";
+    toBeDeleted[5] = "";
+  }//closes quiz-check
+ }//closes only-card-conditional
  resetText();
 } //_CODE_:DeleteButton:881527:
 

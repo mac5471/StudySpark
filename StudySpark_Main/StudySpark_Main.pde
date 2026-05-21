@@ -2,9 +2,9 @@ import g4p_controls.*;
 import java.io.File; //to later read the files within a folder for dropdown menus (see "updateDropdowns" helper function)
 
 //Flashcard variables
-Deck currDeck;
-int[] Order;
-boolean Set;
+Deck currDeck; //The currently displayed deck.
+int[] Order;   //The order of cards to be shown.
+boolean Set;   //If the deck is in set or random order.
 
 //Display and GUI variables
 int screen = 1;
@@ -23,16 +23,17 @@ PVector lastLocation = new PVector(0, 0);
 int currX, currY;
 
 //Creation variables
-ArrayList<String[]> Content;
-String Title;
-int Current;
-boolean Card; //if creating card vs. quiz
+ArrayList<String[]> Content; //Stores user-inputted content before export.
+String Title;  //Flashcard Deck/Quiz' Title.
+int Current;   //The index of the currently to-be-edited card/question.
+boolean Card;  //If creating flashcard deck or quiz.
+PrintWriter exporter; //Saves the user content to file.
 
 //Droplist variables
 ArrayList<String> selectCards = new ArrayList<String>();
 String[] orderedSelectCardsArray = new String[selectCards.size()];
 
-PrintWriter exporter;
+
 
 void setup() {
   size(800, 500);
