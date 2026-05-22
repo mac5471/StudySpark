@@ -26,6 +26,7 @@ public void menu_flash_clicked(GButton source, GEvent event) { //_CODE_:menu_fla
   screen = 2;
 } //_CODE_:menu_flash:202775:
 
+// this gets triggered when the user clicks the "quizzes" path button on the main dashboard screen
 public void menu_quiz_clicked(GButton source, GEvent event) { //_CODE_:menu_quiz:424307:
   screen = 4;
 } //_CODE_:menu_quiz:424307:
@@ -114,32 +115,36 @@ public void flash_selectCard_clicked(GDropList source, GEvent event) { //_CODE_:
   currDeck.switchCard(currDeck.displayedIndex);
 } //_CODE_:flash_selectCard:378885:
 
+// this renders the pre quiz screen
 synchronized public void preQuiz_win_draw(PApplet appc, GWinData data) { //_CODE_:preQuiz_win:535086:
   appc.background(backgroundCol);
   if (quizIcon != null){
     appc.imageMode(CENTER);
-    appc.image(quizIcon, width/2, height/3.5, 100, 100);
+    appc.image(quizIcon, width/2, height/3.5, 100, 100); //loads the main quiz module graphics banner
   }
 } //_CODE_:preQuiz_win:535086:
 
+// this is for the user pressing the back navigation button inside the quiz setup space, redirecting them to main menu
 public void preQuiz_back_clicked(GButton source, GEvent event) { //_CODE_:preQuiz_back:336593:
   screen = 1;
 } //_CODE_:preQuiz_back:336593:
 
+//triggered when confirming the selected subject pack to launch an evaluative quiz session
 public void preQuiz_confirm_clicked(GButton source, GEvent event) { //_CODE_:preQuiz_confirm:206394:
   String temp = preQuiz_selectPack.getSelectedText();
-  loadQuizData(temp); 
-  if (activeQuiz != null){ // basically means make sure a quiz object actually exists in memory before we try to use it
-    
+  loadQuizData(temp);
+  if (activeQuiz != null){ // basically means make sure a quiz object actually is there in memory before we try to use it
+
+//randomly rearranges the question loop sequence
     for (int i = activeQuiz.questions.size() - 1; i > 0; i--) {
       int index = int(random(i + 1));
       QuizQuestion tempQ = activeQuiz.questions.get(index);
       activeQuiz.questions.set(index, activeQuiz.questions.get(i));
-      activeQuiz.questions.set(i, tempQ);
+      activeQuiz.questions.set(i, tempQ); //index structure is completely randomized
     }
     
     if (activeQuiz.questions.size() > 0) {
-      activeQuiz.currentQ = activeQuiz.questions.get(0);
+      activeQuiz.currentQ = activeQuiz.questions.get(0); //puts question 1 on screen viewport in the new randomized track
     }
     
     screen = 5;
@@ -149,17 +154,19 @@ public void preQuiz_confirm_clicked(GButton source, GEvent event) { //_CODE_:pre
 public void preQuiz_selectPack_changed(GDropList source, GEvent event) { //_CODE_:preQuiz_selectPack:840257:
 } //_CODE_:preQuiz_selectPack:840257:
 
+// background window painter method that updates the quiz game board view
 synchronized public void quiz_win_draw(PApplet appc, GWinData data) { //_CODE_:quiz_win:934516:
   appc.background(backgroundCol);
     if (activeQuiz != null) {
     if (!activeQuiz.isFinished) {
-      QuizQuestion q = activeQuiz.currentQ;
+      QuizQuestion q = activeQuiz.currentQ // takes the target question object container
       
+// text bounds and color configurations for the  question text field      
       appc.fill(83, 54, 40);
       appc.textAlign(CENTER);
       appc.textSize(24);
       appc.text(q.questionText, width/2, 120);
-      
+      //option layouts
       appc.textAlign(LEFT);
       appc.textSize(24);
       appc.text(q.options[0], 225, 220);
@@ -177,6 +184,8 @@ public void quiz_menu_clicked(GButton source, GEvent event) { //_CODE_:quiz_menu
   screen = 1;
 } //_CODE_:quiz_menu:254678:
 
+
+//for the following options, it gets triggered when the certain button is pressed, and then for option A , it passes button choice pointer index 0 down to verify if the answer was correct
 public void quiz_A_clicked(GButton source, GEvent event) { //_CODE_:quiz_A:662074:
   if (activeQuiz != null && !activeQuiz.isFinished) activeQuiz.checkAnswer(0); 
 } //_CODE_:quiz_A:662074:
@@ -198,23 +207,26 @@ synchronized public void postQuiz_win_draw(PApplet appc, GWinData data) { //_COD
   appc.textAlign(CENTER);
   appc.textSize(24);
   appc.fill(0);
-  //appc.text("Quiz Finished!", width/2, height/2);
   if (activeQuiz != null){
+    // pulls user score data and max array question to get final grading
     appc.text("Score: " + activeQuiz.score + "/" + activeQuiz.questions.size(), 400, 120);
   }
 } //_CODE_:postQuiz_win:586133:
 
+// after button is clicked, it simply goes back to screen 1
 public void postQuiz_menu_clicked(GButton source, GEvent event) { //_CODE_:postQuiz_menu:715899:
   screen = 1;
 } //_CODE_:postQuiz_menu:715899:
 
+// instantly goes back to same test screen
 public void postQuiz_retry_clicked(GButton source, GEvent event) { //_CODE_:postQuiz_retry:994259:
-  String quiz = activeQuiz.title;
+  String quiz = activeQuiz.title; // temporarily holds active deck package title key string
   resetProgram();
   screen = 5;
   loadQuizData(quiz);
 } //_CODE_:postQuiz_retry:994259:
 
+// drop-down click event handler for final wrong questions
 public void postQuiz_incorrect_changed(GDropList source, GEvent event) { //_CODE_:postQuiz_incorrect:929439:
   updateIncorrect();
 } //_CODE_:postQuiz_incorrect:929439:
@@ -269,6 +281,7 @@ public void preCreate_quiz_clicked(GButton source, GEvent event) { //_CODE_:preC
   String[] temp = {"","","","","","1"};
   Content.add(temp);
   
+  // show standard controller interfaces
   CardAnswerText.setVisible(false);
   NewButton.setVisible(true);
   Export.setVisible(true);
@@ -277,15 +290,16 @@ public void preCreate_quiz_clicked(GButton source, GEvent event) { //_CODE_:preC
   DeleteButton.setVisible(true);
   UpdateButton.setVisible(true);
   
+  // activate multi-option quiz field controllers across development editor suite
   QuestionText.setVisible(true);
-  CorrAns.setVisible(true);
+  CorrAns.setVisible(true); //activates dropdown controller selector targeting correct master answer reference key mapping
   CorrAnsLabel.setVisible(true);
   QuizAnswer1.setVisible(true);
   QuizAnswer2.setVisible(true);
   QuizAnswer3.setVisible(true);
   QuizAnswer4.setVisible(true);
   
-  Card = false;
+  Card = false; // Set the variable to false to switch the workspace mode from flashcards to quiz.
 } //_CODE_:preCreate_quiz:707934:
 
 public void preCreate_back_clicked(GButton source, GEvent event) { //_CODE_:preCreate_back:670630:

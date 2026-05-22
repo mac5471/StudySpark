@@ -1,4 +1,4 @@
-// this class handles the logic for the multiple choices along with the randomization function
+ // this class handles the logic for the multiple choices along with the randomization function
 class QuizQuestion {
   String questionText; // the main text
   String[] options; // the final array with randomized answers
