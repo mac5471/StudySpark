@@ -161,7 +161,7 @@ synchronized public void quiz_win_draw(PApplet appc, GWinData data) { //_CODE_:q
   appc.background(backgroundCol);
     if (activeQuiz != null) {
     if (!activeQuiz.isFinished) {
-      QuizQuestion q = activeQuiz.currentQ // takes the target question object container
+      QuizQuestion q = activeQuiz.currentQ; // takes the target question object container
       
 // text bounds and color configurations for the  question text field      
       appc.fill(83, 54, 40);
