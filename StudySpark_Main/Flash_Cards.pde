@@ -18,11 +18,12 @@ Card(String q, String a) {//open constructor #1
   this.Answer = a;
   this.Star = false;
   
-  this.Position = new PVector((width/2 - this.sideLength)/2, (height/2 - this.sideHeight)/2); 
   this.cardColour = (255);
   this.textColour = (0);
   this.sideLength = 400;
   this.sideHeight = 3*this.sideLength/5;
+    
+  this.Position = new PVector((width - this.sideLength)/2, (height - this.sideHeight)/2); 
   
   this.Front = true;
 }//close constructor #1
@@ -38,7 +39,7 @@ void drawMe(PApplet appc) { //draws a card.
   String content;
   if(this.Front) {content = this.Question;}
   else {content = this.Answer;}
-  appc.text(content, this.Position.x, this.Position.y, this.sideLength-15, this.sideHeight-15);
+  appc.text(content, this.Position.x+12, this.Position.y+12, this.sideLength-24, this.sideHeight-24);
   
   if (this.Star == true){
     appc.image(sparkIcon, this.Position.x + this.sideLength/1.22, this.Position.y + this.sideHeight/15, 70, 70);

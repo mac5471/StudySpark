@@ -1,6 +1,6 @@
 //Import libraries
 import g4p_controls.*;
-import java.io.File; //to later read the files within a folder for dropdown menus (see "updateDropdowns" helper function)
+import java.io.File; //to later read the files within a folder for dropdown menus (see "updateDeckDropdowns" helper function)
 
 //Flashcard variables
 Deck currDeck; //The currently displayed deck.
@@ -30,11 +30,9 @@ int Current;   //The index of the currently to-be-edited card/question.
 boolean Card;  //If creating flashcard deck or quiz.
 PrintWriter exporter; //Saves the user content to file.
 
-//Droplist variables
+//Droplist variables for flashcard selection
 ArrayList<String> selectCards = new ArrayList<String>();
 String[] orderedSelectCardsArray = new String[selectCards.size()];
-
-
 
 void setup() {
   size(800, 500);
@@ -47,7 +45,7 @@ void setup() {
   
   screens = new GWindow[] {menu_win, preFlash_win, flash_win, preQuiz_win, quiz_win, postQuiz_win, preCreate_win, create_win};
   resetScreens();
-  updateDropdowns();
+  updateDeckDropdowns();
   
   imageMode(CENTER);
   

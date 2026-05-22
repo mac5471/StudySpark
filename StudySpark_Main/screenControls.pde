@@ -1,9 +1,9 @@
 void screenControls(){
   
-  //Hide or show screens depending on which one the user is currently on
-  if (prevScreen != screen){    
+  if (prevScreen != screen){ //If the screen has changed
     int i = 1;
-    for (GWindow w : screens){
+    
+    for (GWindow w : screens){ //Hide or show screens depending on which one the user is currently on
       if (i == screen){
         w.setVisible(true);
       }
@@ -12,7 +12,8 @@ void screenControls(){
       }
       i++;
     }
-    updateDropdowns();
+    
+    updateDeckDropdowns();
     prevScreen = screen;
   }
   
@@ -24,11 +25,11 @@ void screenControls(){
   
   if (currLocation.x != lastLocation.x || currLocation.y != lastLocation.y){ //only update if the location of the window has changed
     for (GWindow w : screens){
-      if (w != currScreen){
+      if (w != currScreen){ //Update locations of all windows
         w.setLocation(currX, currY);
       }
     }
-    surface.setLocation(currX, currY);
+    surface.setLocation(currX, currY); //for main sketch menu
     lastLocation = currLocation.copy();
   }
   
@@ -37,12 +38,12 @@ void screenControls(){
 void resetScreens(){
 
   for (GWindow w : screens){
-    if (w != menu_win){
+    if (w != menu_win){ //If the window is not the menu, hide it
       w.setVisible(false);
     }
     else{
       w.setVisible(true);
-      updateDropdowns();
+      updateDeckDropdowns();
     }
   }
   

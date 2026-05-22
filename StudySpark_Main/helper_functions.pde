@@ -1,3 +1,4 @@
+//LOGIC FUNCTIONS
 void loadDeck (String name) { //loads a deck from its file
 
   String path = sketchPath("/decks/"+name+".txt");  //locates a deck from the 'decks' folder from its name,
@@ -28,21 +29,9 @@ void loadDeck (String name) { //loads a deck from its file
   orderCards();                     //orders the cards,
   currDeck.switchCard(Order[0]);    //and switches to the first card in the set order.
   
-  updateCardOptions(selectCards);   //creates the information needed for the table of contents drop-down.
+  updateFlashOptions(selectCards);   //creates the information needed for the table of contents drop-down.
   
 }//close loadDeck() function
-
-void updateCardOptions(ArrayList<String> selectCards){ //update avaliable cards for flashcard dropdown
-  String[] selectCardsArray = selectCards.toArray(new String[selectCards.size()]);
-  orderedSelectCardsArray = new String[selectCards.size()];
-  
-  int j = 0;
-  for (int i = 0; i < selectCardsArray.length; i++){
-    j = Order[i];
-    orderedSelectCardsArray[i] = i+1 + ". " + selectCardsArray[j];
-  }
-  flash_selectCard.setItems(orderedSelectCardsArray, 0);
-}
 
 void orderCards() {//creates the order of the current deck
   int size = currDeck.Cards.size();
@@ -83,6 +72,112 @@ void loadQuizData(String filename) {
   }
 }
 
+void prevCard() { //in the flashcard deck interface, switches to the previous card in order.
+
+  if(currDeck.displayedIndex - 1 >= 0) { //if-check to check that the current card isn't the first card (i.e. no prev. card).
+    currDeck.currCard.Front = true;
+    currDeck.displayedIndex -= 1;
+    currDeck.switchCard(Order[currDeck.displayedIndex]);
+    flash_selectCard.setSelected(currDeck.displayedIndex);
+  }
+  else {println("you're at the beginning of the deck!");}
+  
+}
+
+void nextCard() {  //in the flashcard deck interface, switches to the next card in order.
+
+  if(currDeck.displayedIndex + 1 < currDeck.qtCards) {  //if-check to check that the current isn't the last card (i.e. no next card).
+    currDeck.currCard.Front = true;
+    currDeck.displayedIndex += 1;
+    currDeck.switchCard(Order[currDeck.displayedIndex]);
+    flash_selectCard.setSelected(currDeck.displayedIndex);
+  }
+  else {println("you're at the end of the deck!");}
+  
+}
+
+//DROPDOWNS
+void updateFlashOptions(ArrayList<String> selectCards){ //update avaliable cards for flashcard dropdown
+  String[] selectCardsArray = selectCards.toArray(new String[selectCards.size()]);
+  orderedSelectCardsArray = new String[selectCards.size()];
+  
+  int j = 0;
+  for (int i = 0; i < selectCardsArray.length; i++){
+    j = Order[i];
+    orderedSelectCardsArray[i] = i+1 + ". " + selectCardsArray[j];
+  }
+  flash_selectCard.setItems(orderedSelectCardsArray, 0);
+}
+
+void updateCreateDropdown(){
+  String[] cardsArray = new String[Content.size()];
+  
+  int i = 0;
+  for (String[] questions: Content){
+    cardsArray[i] = i+1 + ". " + questions[0]; //Save the question (index 0) of each item in Content into an array
+    i++;
+  }
+  
+  create_select.setItems(cardsArray, 0); //update dropdown
+  create_select.setSelected(Current);
+}
+
+
+void updateDeckDropdowns(){ //For selection screen before flashcards and quizzing
+  String decksPath = sketchPath("decks"); //make a path to decks folder
+
+  File decksFolder = new File(decksPath);
+  File [] avaliableDecks = decksFolder.listFiles(); //read files in decks
+  
+  ArrayList<String> flashOptionsList = new ArrayList<String>();
+  ArrayList<String> quizOptionsList = new ArrayList<String>();
+  
+  String deckName;
+  
+  for (File f : avaliableDecks){ //for each file in decks, read if file is a quiz or flashcard and add to appropriate array
+    String[] currDeck = loadStrings("decks/" + f.getName());
+    deckName = f.getName();
+    flashOptionsList.add(deckName.replace(".txt", ""));
+    if (currDeck[0].equals("Q")){
+      quizOptionsList.add(deckName.replace(".txt", ""));
+    }
+  }
+  
+  String[] flashOptions = flashOptionsList.toArray(new String[flashOptionsList.size()]);
+  String[] quizOptions = quizOptionsList.toArray(new String[quizOptionsList.size()]);
+  
+  //update dropdown items
+  preFlash_selectPack.setItems(flashOptions, 0);
+  preQuiz_selectPack.setItems(quizOptions, 0);
+}
+
+void loadIncorrectQuestions(){
+  if (activeQuiz.incorrectQuestions != null){
+    if (activeQuiz.incorrectQuestions.isEmpty()){ // if no answers are incorrect, do not display incorrect GUI
+      String[] incorrectQuestionsArray = new String[1];
+      incorrectQuestionsArray[0] = "N/A";
+      postQuiz_incorrect.setItems(incorrectQuestionsArray, 0);
+      
+      showIncorrect(false);
+    }
+    else{
+      String[] incorrectQuestionsArray = new String[activeQuiz.incorrectQuestions.size()];
+      
+      int i = 0;
+      for (QuizQuestion q: activeQuiz.incorrectQuestions){
+        incorrectQuestionsArray[i] = i+1 + ". " + q.questionText;
+        i++;
+      }
+      
+      postQuiz_incorrect.setItems(incorrectQuestionsArray, 0); //update dropdown
+      
+      //display GUI
+      showIncorrect(true);
+    }
+  }
+}
+
+//GUI-RELATED-FUNCTIONS
 void resetProgram() { //resets the text and visbility of a variety of deck/quiz GUI elements to their original state.
   Content = null;
   Title = null;
@@ -127,6 +222,7 @@ void resetText() { //in deck/quiz creation, updates the text to the currently di
     QuizAnswer3.setText(Content.get(Current)[3]);
     QuizAnswer4.setText(Content.get(Current)[4]);
   }
+  updateCreateDropdown();
 } //close resetText() function
 
 void clearText () { //clear textboxes in creation tabs
@@ -143,28 +239,26 @@ void clearText () { //clear textboxes in creation tabs
   }
 }
 
-void prevCard() { //in the flashcard deck interface, switches to the previous card in order.
 
-  if(currDeck.displayedIndex - 1 >= 0) { //if-check to check that the current card isn't the first card (i.e. no prev. card).
-    currDeck.currCard.Front = true;
-    currDeck.displayedIndex -= 1;
-    currDeck.switchCard(Order[currDeck.displayedIndex]);
-    flash_selectCard.setSelected(currDeck.displayedIndex);
+void updateIncorrect(){
+  if (!activeQuiz.incorrectQuestions.isEmpty()){ //update GUI to reflect question selected
+    int selectedIndex = postQuiz_incorrect.getSelectedIndex();
+    QuizQuestion[] questions = activeQuiz.incorrectQuestions.toArray(new QuizQuestion[activeQuiz.incorrectQuestions.size()]);
+    question_display.setText(postQuiz_incorrect.getSelectedText());
+    yourAnswer_display.setText(activeQuiz.incorrectAnswers.get(selectedIndex));
+    corrAnswer_display.setText(questions[selectedIndex].correctAnsText);
   }
-  else {println("you're at the beginning of the deck!");}
-  
 }
 
-void nextCard() {  //in the flashcard deck interface, switches to the next card in order.
-
-  if(currDeck.displayedIndex + 1 < currDeck.qtCards) {  //if-check to check that the current isn't the last card (i.e. no next card).
-    currDeck.currCard.Front = true;
-    currDeck.displayedIndex += 1;
-    currDeck.switchCard(Order[currDeck.displayedIndex]);
-    flash_selectCard.setSelected(currDeck.displayedIndex);
-  }
-  else {println("you're at the end of the deck!");}
-  
+void showIncorrect(boolean b){ //Control visibility of incorrect question GUIs
+  label_incorrect.setVisible(b);
+  label_question.setVisible(b);
+  label_yourAnswer.setVisible(b);
+  label_corrAnswer.setVisible(b);
+  postQuiz_incorrect.setVisible(b);
+  question_display.setVisible(b);
+  yourAnswer_display.setVisible(b);
+  corrAnswer_display.setVisible(b);
 }
 
 void customPalette(){ //overrides existing colours with custom ones
@@ -191,83 +285,4 @@ void customPalette(){ //overrides existing colours with custom ones
   GCScheme.changePaletteColor(4, 12, color(25, 14, 5));
   GCScheme.changePaletteColor(4, 15, color(87, 61, 45));
   GCScheme.changePaletteColor(4, 16, color(17, 8, 3));
-
-}
-
-void updateDropdowns(){
-  String decksPath = sketchPath("decks"); //make a path to decks folder
-
-  File decksFolder = new File(decksPath);
-  File [] avaliableDecks = decksFolder.listFiles(); //read files in decks
-  
-  ArrayList<String> flashOptionsList = new ArrayList<String>();
-  ArrayList<String> quizOptionsList = new ArrayList<String>();
-  
-  String deckName;
-  
-  for (File f : avaliableDecks){ //for each file in decks, read if file is a quiz or flashcard and add to appropriate array
-    String[] currDeck = loadStrings("decks/" + f.getName());
-    deckName = f.getName();
-    flashOptionsList.add(deckName.replace(".txt", ""));
-    if (currDeck[0].equals("Q")){
-      quizOptionsList.add(deckName.replace(".txt", ""));
-    }
-  }
-  
-  String[] flashOptions = flashOptionsList.toArray(new String[flashOptionsList.size()]);
-  String[] quizOptions = quizOptionsList.toArray(new String[quizOptionsList.size()]);
-  
-  //update dropdown items
-  preFlash_selectPack.setItems(flashOptions, 0);
-  preQuiz_selectPack.setItems(quizOptions, 0);
-}
-
-void loadIncorrectQuestions(){
-  if (activeQuiz.incorrectQuestions != null){
-    if (activeQuiz.incorrectQuestions.isEmpty()){ // if no answers are incorrect, do not display incorrect GUI
-      String[] incorrectQuestionsArray = new String[1];
-      incorrectQuestionsArray[0] = "N/A";
-      postQuiz_incorrect.setItems(incorrectQuestionsArray, 0);
-      
-      label_incorrect.setVisible(false);
-      label_question.setVisible(false);
-      label_yourAnswer.setVisible(false);
-      label_corrAnswer.setVisible(false);
-      postQuiz_incorrect.setVisible(false);
-      question_display.setVisible(false);
-      yourAnswer_display.setVisible(false);
-      corrAnswer_display.setVisible(false);
-    }
-    else{
-      String[] incorrectQuestionsArray = new String[activeQuiz.incorrectQuestions.size()];
-      
-      int i = 0;
-      for (QuizQuestion q: activeQuiz.incorrectQuestions){
-        incorrectQuestionsArray[i] = i+1 + ". " + q.questionText;
-        i++;
-      }
-      
-      postQuiz_incorrect.setItems(incorrectQuestionsArray, 0); //update dropdown
-      
-      //display GUI
-      label_incorrect.setVisible(true);
-      label_question.setVisible(true);
-      label_yourAnswer.setVisible(true);
-      label_corrAnswer.setVisible(true);
-      postQuiz_incorrect.setVisible(true);
-      question_display.setVisible(true);
-      yourAnswer_display.setVisible(true);
-      corrAnswer_display.setVisible(true);
-    }
-  }
-}
-
-void updateIncorrect(){
-  if (!activeQuiz.incorrectQuestions.isEmpty()){ //update GUI to reflect question selected
-    int selectedIndex = postQuiz_incorrect.getSelectedIndex();
-    QuizQuestion[] questions = activeQuiz.incorrectQuestions.toArray(new QuizQuestion[activeQuiz.incorrectQuestions.size()]);
-    question_display.setText(postQuiz_incorrect.getSelectedText());
-    yourAnswer_display.setText(activeQuiz.incorrectAnswers.get(selectedIndex));
-    corrAnswer_display.setText(questions[selectedIndex].correctAnsText);
-  }
 }

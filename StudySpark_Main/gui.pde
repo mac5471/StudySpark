@@ -23,13 +23,12 @@ synchronized public void menu_win_draw(PApplet appc, GWinData data) { //_CODE_:m
 } //_CODE_:menu_win:336987:
 
 public void menu_flash_clicked(GButton source, GEvent event) { //_CODE_:menu_flash:202775:
-  updateDropdowns();
+  updateDeckDropdowns();
   screen = 2;
 } //_CODE_:menu_flash:202775:
 
-// this gets triggered when the user clicks the "quizzes" path button on the main dashboard screen
 public void menu_quiz_clicked(GButton source, GEvent event) { //_CODE_:menu_quiz:424307:
-  updateDropdowns();
+  updateDeckDropdowns();
   screen = 4;
 } //_CODE_:menu_quiz:424307:
 
@@ -113,11 +112,11 @@ public void flash_star_clicked(GButton source, GEvent event) { //_CODE_:flash_st
 } //_CODE_:flash_star:650691:
 
 public void flash_selectCard_clicked(GDropList source, GEvent event) { //_CODE_:flash_selectCard:378885:
-  currDeck.displayedIndex = Order[int(flash_selectCard.getSelectedText().substring(0, 1)) - 1];
+  int dotIndex = flash_selectCard.getSelectedText().indexOf(".");
+  currDeck.displayedIndex = Order[int(flash_selectCard.getSelectedText().substring(0, dotIndex)) - 1];
   currDeck.switchCard(currDeck.displayedIndex);
 } //_CODE_:flash_selectCard:378885:
 
-// this renders the pre quiz screen
 synchronized public void preQuiz_win_draw(PApplet appc, GWinData data) { //_CODE_:preQuiz_win:535086:
   appc.background(backgroundCol);
   if (quizIcon != null){
@@ -126,12 +125,10 @@ synchronized public void preQuiz_win_draw(PApplet appc, GWinData data) { //_CODE
   }
 } //_CODE_:preQuiz_win:535086:
 
-// this is for the user pressing the back navigation button inside the quiz setup space, redirecting them to main menu
 public void preQuiz_back_clicked(GButton source, GEvent event) { //_CODE_:preQuiz_back:336593:
   screen = 1;
 } //_CODE_:preQuiz_back:336593:
 
-//triggered when confirming the selected subject pack to launch an evaluative quiz session
 public void preQuiz_confirm_clicked(GButton source, GEvent event) { //_CODE_:preQuiz_confirm:206394:
   String temp = preQuiz_selectPack.getSelectedText();
   loadQuizData(temp);
@@ -156,12 +153,11 @@ public void preQuiz_confirm_clicked(GButton source, GEvent event) { //_CODE_:pre
 public void preQuiz_selectPack_changed(GDropList source, GEvent event) { //_CODE_:preQuiz_selectPack:840257:
 } //_CODE_:preQuiz_selectPack:840257:
 
-// background window painter method that updates the quiz game board view
 synchronized public void quiz_win_draw(PApplet appc, GWinData data) { //_CODE_:quiz_win:934516:
   appc.background(backgroundCol);
     if (activeQuiz != null) {
     if (!activeQuiz.isFinished) {
-      QuizQuestion q = activeQuiz.currentQ // takes the target question object container
+      QuizQuestion q = activeQuiz.currentQ; // takes the target question object container
       
 // text bounds and color configurations for the  question text field      
       appc.fill(83, 54, 40);
@@ -186,8 +182,6 @@ public void quiz_menu_clicked(GButton source, GEvent event) { //_CODE_:quiz_menu
   screen = 1;
 } //_CODE_:quiz_menu:254678:
 
-
-//for the following options, it gets triggered when the certain button is pressed, and then for option A , it passes button choice pointer index 0 down to verify if the answer was correct
 public void quiz_A_clicked(GButton source, GEvent event) { //_CODE_:quiz_A:662074:
   if (activeQuiz != null && !activeQuiz.isFinished) activeQuiz.checkAnswer(0); 
 } //_CODE_:quiz_A:662074:
@@ -215,12 +209,10 @@ synchronized public void postQuiz_win_draw(PApplet appc, GWinData data) { //_COD
   }
 } //_CODE_:postQuiz_win:586133:
 
-// after button is clicked, it simply goes back to screen 1
 public void postQuiz_menu_clicked(GButton source, GEvent event) { //_CODE_:postQuiz_menu:715899:
   screen = 1;
 } //_CODE_:postQuiz_menu:715899:
 
-// instantly goes back to same test screen
 public void postQuiz_retry_clicked(GButton source, GEvent event) { //_CODE_:postQuiz_retry:994259:
   String quiz = activeQuiz.title; // temporarily holds active deck package title key string
   resetProgram();
@@ -228,7 +220,6 @@ public void postQuiz_retry_clicked(GButton source, GEvent event) { //_CODE_:post
   loadQuizData(quiz);
 } //_CODE_:postQuiz_retry:994259:
 
-// drop-down click event handler for final wrong questions
 public void postQuiz_incorrect_changed(GDropList source, GEvent event) { //_CODE_:postQuiz_incorrect:929439:
   updateIncorrect();
 } //_CODE_:postQuiz_incorrect:929439:
@@ -310,19 +301,14 @@ public void preCreate_back_clicked(GButton source, GEvent event) { //_CODE_:preC
   screen = 1;
 } //_CODE_:preCreate_back:670630:
 
-synchronized public void create_win_draw(PApplet appc, GWinData data) { //_CODE_:create_win:668682: IS THIS CODE STILL NECESSARY?
+synchronized public void create_win_draw(PApplet appc, GWinData data) { //_CODE_:create_win:668682:
   appc.background(backgroundCol);
-  if(Content != null) {
-    textSize(30);
-    fill(255);
-    String Count = str(Current + 1) + "/" + str(Content.size());
-    text(Count, 10, 380);
-  }
 } //_CODE_:create_win:668682:
 
 public void create_menu_clicked(GButton source, GEvent event) { //_CODE_:create_menu:273282:
   preCreate_name.setText("");
   clearText();
+  updateDeckDropdowns();
   screen = 1;
 } //_CODE_:create_menu:273282:
 
@@ -396,6 +382,7 @@ public void Update(GButton source, GEvent event) { //_CODE_:UpdateButton:994854:
     temp[4] = QuizAnswer4.getText();
     temp[5] = str(CorrAns.getSelectedIndex() + 1);
    }
+   updateCreateDropdown();
 } //_CODE_:UpdateButton:994854:
 
 public void New(GButton source, GEvent event) { //_CODE_:NewButton:814028:
@@ -453,6 +440,11 @@ public void Answer4Text(GTextField source, GEvent event) { //_CODE_:QuizAnswer4:
 public void dropList1_click1(GDropList source, GEvent event) { //_CODE_:CorrAns:937843:
 
 } //_CODE_:CorrAns:937843:
+
+public void create_select_changed(GDropList source, GEvent event) { //_CODE_:create_select:629005:
+  Current = create_select.getSelectedIndex();
+  resetText();
+} //_CODE_:create_select:629005:
 
 
 
@@ -704,6 +696,9 @@ public void createGUI(){
   CorrAnsLabel.setText("Correct Answer:");
   CorrAnsLabel.setOpaque(false);
   togGroup1 = new GToggleGroup();
+  create_select = new GDropList(create_win, 130, 20, 190, 120, 3, 20);
+  create_select.setItems(loadStrings("list_629005"), 0);
+  create_select.addEventHandler(this, "create_select_changed");
   menu_win.loop();
   preFlash_win.loop();
   flash_win.loop();
@@ -779,3 +774,4 @@ GTextField QuizAnswer4;
 GDropList CorrAns; 
 GLabel CorrAnsLabel; 
 GToggleGroup togGroup1; 
+GDropList create_select; 
