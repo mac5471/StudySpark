@@ -238,6 +238,7 @@ public void preCreate_name_changed(GTextField source, GEvent event) { //_CODE_:p
 
 public void preCreate_deck_clicked(GButton source, GEvent event) { //_CODE_:preCreate_deck:390849:
  screen = 8;
+ clearCreateDropdown();
  Content = new ArrayList();
  Title = preCreate_name.getText();
  Current = 0;
@@ -267,6 +268,7 @@ public void preCreate_deck_clicked(GButton source, GEvent event) { //_CODE_:preC
 
 public void preCreate_quiz_clicked(GButton source, GEvent event) { //_CODE_:preCreate_quiz:707934:
   screen = 8;
+  clearCreateDropdown();
   Content = new ArrayList();
   Title = preCreate_name.getText();
   Current = 0;
@@ -377,6 +379,7 @@ public void Update(GButton source, GEvent event) { //_CODE_:UpdateButton:994854:
   temp[1] = CardAnswerText.getText();
   
   if(!Card) { //extra information saved b/c quiz.
+    temp[1] = QuizAnswer1.getText();
     temp[2] = QuizAnswer2.getText();
     temp[3] = QuizAnswer3.getText();
     temp[4] = QuizAnswer4.getText();

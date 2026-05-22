@@ -122,6 +122,12 @@ void updateCreateDropdown(){
   create_select.setSelected(Current);
 }
 
+void clearCreateDropdown(){
+  String[] emptyArray = new String[1];
+  emptyArray[0] = "N/A";
+  
+  create_select.setItems(emptyArray, 0);
+}
 
 void updateDeckDropdowns(){ //For selection screen before flashcards and quizzing
   String decksPath = sketchPath("decks"); //make a path to decks folder
@@ -207,6 +213,7 @@ void resetProgram() { //resets the text and visbility of a variety of deck/quiz 
   QuizAnswer3.setText("");
   QuizAnswer4.setVisible(false);
   QuizAnswer4.setText("");
+  
 } //close resetProgram() function
 
 void resetText() { //in deck/quiz creation, updates the text to the currently displayed content.

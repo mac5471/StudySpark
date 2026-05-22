@@ -38,23 +38,22 @@ void setup() {
   size(800, 500);
   background(backgroundCol);
   surface.setLocation(0, 0);
-  
+
   //GUI
   createGUI();
   customPalette();
-  
+
   screens = new GWindow[] {menu_win, preFlash_win, flash_win, preQuiz_win, quiz_win, postQuiz_win, preCreate_win, create_win};
   resetScreens();
   updateDeckDropdowns();
-  
+
   imageMode(CENTER);
-  
+
   //Load images
   logo = loadImage("StudySparkLogo.PNG");
   flashIcon = loadImage("FlashcardIcon.PNG");
   quizIcon = loadImage("QuizIcon.PNG");
   sparkIcon = loadImage("Spark.PNG");
-  
 }
 
 void draw() {
