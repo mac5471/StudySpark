@@ -23,10 +23,12 @@ synchronized public void menu_win_draw(PApplet appc, GWinData data) { //_CODE_:m
 } //_CODE_:menu_win:336987:
 
 public void menu_flash_clicked(GButton source, GEvent event) { //_CODE_:menu_flash:202775:
+  updateDropdowns();
   screen = 2;
 } //_CODE_:menu_flash:202775:
 
 public void menu_quiz_clicked(GButton source, GEvent event) { //_CODE_:menu_quiz:424307:
+  updateDropdowns();
   screen = 4;
 } //_CODE_:menu_quiz:424307:
 
@@ -350,6 +352,7 @@ public void ExportContent(GButton source, GEvent event) { //_CODE_:Export:388574
   exporter.flush();
   exporter.close();
   //resetProgram();
+  println(Title, "saved in decks!");
   screen = 8;
 } //_CODE_:Export:388574:
 

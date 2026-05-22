@@ -12,6 +12,7 @@ void screenControls(){
       }
       i++;
     }
+    updateDropdowns();
     prevScreen = screen;
   }
   
