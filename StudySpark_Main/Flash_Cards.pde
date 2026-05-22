@@ -4,25 +4,21 @@ class Card {
 
 //1) Card Details
 String Title, Question, Answer; //The card's title, question, and answer
-Boolean Front, Star; //If the card's front is showing, if the card has been starred
+Boolean Front, Star; //If the card's front is showing; If the card has been starred
 
 //2) Graphical Information
+PVector Position; //The card's position on the screen
+int sideLength, sideHeight; //The side length of a card; The height of a card
+color cardColour, textColour; //The colour of the card; The colour of the card's text
 
-PVector Position;
-int sideLength, sideHeight; //not currently used -- implemented in case different menus might alter the card's size
-color cardColour, textColour; //the colour of the card, the colour of the card's text
 
-//3) Relationship w/ Other Objects
-Deck belongsTo;
-int Index;
-
-//constructor
+//CONSTRUCTORS
 Card(String q, String a) {//open constructor #1
   this.Question = q;
   this.Answer = a;
   this.Star = false;
   
-  this.Position = new PVector((width/2 - this.sideLength)/2, (height/2 - this.sideHeight)/2); //these should changed depending on GUI design
+  this.Position = new PVector((width/2 - this.sideLength)/2, (height/2 - this.sideHeight)/2); 
   this.cardColour = (255);
   this.textColour = (0);
   this.sideLength = 400;
@@ -31,7 +27,7 @@ Card(String q, String a) {//open constructor #1
   this.Front = true;
 }//close constructor #1
 
-//methods
+//METHODS
 
 void drawMe(PApplet appc) { //draws a card.
   appc.fill(this.cardColour);

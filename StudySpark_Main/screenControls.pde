@@ -1,76 +1,56 @@
 void screenControls(){
   
-  if (prevScreen != screen){
-    if (screen == 1){
-      menu_win.setVisible(true);
+  //Hide or show screens depending on which one the user is currently on
+  if (prevScreen != screen){    
+    int i = 1;
+    for (GWindow w : screens){
+      if (i == screen){
+        w.setVisible(true);
+      }
+      else{
+        w.setVisible(false);
+      }
+      i++;
     }
-    else{
-      menu_win.setVisible(false);
-    }
-    
-    if (screen == 2){
-      updateDropdowns();
-      preFlash_win.setVisible(true);
-    }
-    else{
-      preFlash_win.setVisible(false);
-    }
-    
-    if (screen == 3){
-      flash_win.setVisible(true);
-    }
-    else{
-      flash_win.setVisible(false);
-    }
-    
-    if (screen == 4){
-      updateDropdowns();
-      preQuiz_win.setVisible(true);
-    }
-    else{
-      preQuiz_win.setVisible(false);
-    }
-    
-    if (screen == 5){
-      quiz_win.setVisible(true);
-    }
-    else{
-      quiz_win.setVisible(false);
-    }
-    
-    if (screen == 6){
-      postQuiz_win.setVisible(true);
-    }
-    else{
-      postQuiz_win.setVisible(false);
-    }
-   
-    if (screen == 7){
-      preCreate_win.setVisible(true);
-    }
-    else{
-      preCreate_win.setVisible(false);
-    }
-    
-    if (screen == 8){
-      create_win.setVisible(true);
-    }
-    else{
-      create_win.setVisible(false);
-    }
-    
     prevScreen = screen;
+  }
+  
+  //For updating the location of each window if the user drags the window around
+  currScreen = screens[screen-1];
+  currScreen.getPosition(currLocation);
+  currX = int(currLocation.x);
+  currY = int(currLocation.y);
+  
+  if (currLocation.x != lastLocation.x || currLocation.y != lastLocation.y){ //only update if the location of the window has changed
+    for (GWindow w : screens){
+      if (w != currScreen){
+        w.setLocation(currX, currY);
+      }
+    }
+    surface.setLocation(currX, currY);
+    lastLocation = currLocation.copy();
   }
   
 }
 
 void resetScreens(){
-  menu_win.setVisible(true);
-  preFlash_win.setVisible(false);
-  flash_win.setVisible(false);
-  preQuiz_win.setVisible(false);
-  quiz_win.setVisible(false);
-  postQuiz_win.setVisible(false);
-  preCreate_win.setVisible(false);
-  create_win.setVisible(false);
+
+  for (GWindow w : screens){
+    if (w != menu_win){
+      w.setVisible(false);
+    }
+    else{
+      w.setVisible(true);
+      updateDropdowns();
+    }
+  }
+  
+  //hiding GUI that differs between each creation tab (they share a window)
+  CardAnswerText.setVisible(false);
+  CorrAns.setVisible(false);
+  CorrAnsLabel.setVisible(false);
+  QuizAnswer1.setVisible(false);
+  QuizAnswer2.setVisible(false);
+  QuizAnswer3.setVisible(false);
+  QuizAnswer4.setVisible(false);
 }

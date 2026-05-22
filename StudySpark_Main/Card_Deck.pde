@@ -1,19 +1,16 @@
 class Deck {
 
-//fields
+//FIELDS
 
 //1) Deck Details
-String Name; //The deck's title -- Not currently used for anything
+String Name; //The deck's title
 
-//2) Positional Information -- Not currently used since all positional information in FlashCard class
-
-//3) Relationship w/ Other Objects
-
+//2) Relationship w/ Other Objects
 ArrayList<Card> Cards; //The list of cards in the deck
-Card currCard; //The current displayed card 
-int displayedIndex, qtCards; //The index of the current displayed card, the total number of cards
+Card currCard; //The card currently being displayed 
+int displayedIndex, qtCards; //The index of the current displayed card; The total number of cards
 
-//constructor
+//CONSTRUCTOR
 
 Deck(String n) { //open constructor #1
   this.Name = n;
@@ -32,18 +29,16 @@ void drawCard() { //draws the current card.
 }//close drawMe() method
 
 void switchCard(int i) { //switches to the card at index i.
-  if(this.currCard != null) { //if curr. on a card, resets the state of the curr. card so that the front displays when shown again.
-    this.currCard.Front = true;
+  if(this.currCard != null) { //if currently on a card,
+    this.currCard.Front = true; //resets the state of the current card so that the front is displayed first if shown again.
   } 
-    this.currCard = this.Cards.get(i);
+    this.currCard = this.Cards.get(i); //then, switches to the card at index i.
 }//close switchCard() method
   
 void newCard(String q, String a) { //creates a new card and adds it to the deck.
   Card temp;
-  temp = new Card(q, a);
-  temp.belongsTo = this;
-  temp.Index = this.qtCards;
-  this.Cards.add(temp);
+  temp = new Card(q, a); 
+  this.Cards.add(temp); 
   this.qtCards++;
 }//close newCard() method
 
